@@ -1,0 +1,172 @@
+<odoo>
+    <data>
+        
+          <!-- Tree View -->
+        <record model="ir.ui.view" id="view_school_management_tree">
+            <field name="name">school.tree.view</field>
+            <field name="model">school.management</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="enrollment_number"/>
+                    <field name="standard_division"/>
+                    <field name="age"/>
+                    <field name="class_teacher_id"/>
+                    <field name="date_of_birth"/>
+                </tree>
+                
+            </field>
+        </record>
+
+
+        <!-- Student Form View -->
+        <record model="ir.ui.view" id="school_student_form_view">
+            <field name="name">school.management.form</field>
+            <field name="model">school.management</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="save_all_data" string="Save" type="object" class="oe_highlight"/>
+                    </header>
+                        <sheet>
+                             <div class="oe_title" >
+                                <h1>
+                                    <field name="enrollment_number" readonly="1" style="font-family: sans-serif;"/>
+                                </h1>
+                            </div>
+                           
+                            <div style="display: flex;">
+                                    <div style= "margin-right: 20px;">
+                        
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="standard_division"/>
+                                            <field name="roll_number"/>
+                                        </group>
+                                    </div>
+
+                                    <div style="margin-right: 20px;">
+                                        <group>
+                                         
+                                            <field name="phone_number"/>
+                                            <field name="date_of_birth"/>
+                                            <field name="age" readonly="1"/>
+                                            <field name="class_teacher_id"/>
+                                        </group>
+                                    </div>
+                                    <div>
+                                        <group>
+                                          
+                                            <field name="stream" attrs = "{'invisible':[('standard_division','not in',['11' , '12'])]}"/>
+                                            <field name="street"/>
+                                            <field name="city"/>
+                                            <field name="zipcode"/>
+                                            <field name="state_id"/>
+                                            <field name="country_id"/>
+
+                                        </group>
+                                    </div>                                           
+                            </div>
+                            <div>
+                                <notebook>
+                                    <!-- New Page - Parents -->
+                                    <page string="Parents" name="parents">
+                                        <group>
+                                            <group>
+                                                <field name="parents_ids" nolable="1" />
+                                            </group>
+                
+                                        </group>
+                                    </page>
+
+                                    <!-- New Page - Previous Schools -->
+                                    <page string="Previous Schools" name="previous_schools">
+                                        <group>
+                                            <group>
+                                                <field name="previous_school_ids" />
+                                            </group> 
+                                        </group>
+                                    </page>
+                                </notebook>
+                            </div>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="message_ids" options="{'post refresh': 'recipients'}"/>
+                        </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record model="ir.ui.view" id="view_school_management_search">
+            <field name="name">school.management.search</field>
+            <field name="model">school.management</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="birth_month" string="month"/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Birth Month" name="group_birth_month" context="{'group_by': 'birth_month'}"/>
+                    </group>
+                    <field name="standard_division" string="Standard &amp; Division"/>
+                    <filter name="filter_10th" string="10th Standard" domain="[('standard_division', '=', '10')]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="school_action"> 
+            <field name="name">Student</field>
+            <field name="res_model">school.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_filter_10th': 1, 'search_default_group_birth_month': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_stream">
+            <field name="name">Streams</field>
+            <field name="res_model">school.management</field>
+            <field name="view_mode">tree,form</field>
+           
+        </record>
+
+                <!-- Science Students Menu -->
+        <record model="ir.actions.act_window" id="action_science_students">
+            <field name="name">Science Students</field>
+            <field name="res_model">school.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('stream', '=', 'science')]</field>
+        </record>
+
+        <!-- Commerce Students Menu -->
+        <record model="ir.actions.act_window" id="action_commerce_students">
+            <field name="name">Commerce Students</field>
+            <field name="res_model">school.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('stream', '=', 'commerce')]</field>
+        </record>
+
+        <!-- Arts Students Menu -->
+        <record model="ir.actions.act_window" id="action_arts_students">
+            <field name="name">Arts Students</field>
+            <field name="res_model">school.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('stream', '=', 'arts')]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_teacher_details">
+            <field name="name">class teachers</field>
+            <field name="res_model">school.management.teachers</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Top-level Menu -->
+        <menuitem id="menu_school_students" name="School" sequence="10"/>
+        <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
+      
+        <menuitem id="menu_science_students" name="Science Students" parent="menu_streams" action="action_science_students"/>
+        <menuitem id="menu_commerce_students" name="Commerce Students" parent="menu_streams" action="action_commerce_students"/>
+        <menuitem id="menu_arts_students" name="Arts Students" parent="menu_streams" action="action_arts_students"/>
+        <menuitem id="menu_teachers" name="Class Teachers" parent="menu_school_students" action="action_teacher_details"/>
+    </data>
+</odoo>                                
