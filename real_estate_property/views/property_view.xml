@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+        
+        <!-- Tree View -->
+        <record model="ir.ui.view" id="property_tree_view">
+            <field name="name">property.tree.view</field>
+            <field name="model">real.estate.property</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="property_type_id"/>
+                    <field name="listing_date"/>
+                    <field name="listing_price"/>
+                    <field name="status"/>
+                    <field name="agent_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_form_view">
+            <field name="name">property.form.view</field>
+            <field name="model">real.estate.property</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <notebook>
+                            <page string="General Information">
+                                <group>
+                                    <field name="sequence_number"/>
+                                    <field name="name"/>
+                                    <field name="street"/>
+                                    <field name="city"/>
+                                    <field name="state_id"/>
+                                    <field name="zip"/>
+                                    <field name="country_id" />
+
+                                </group>
+                            </page>
+                            <page string="Listing Details">
+                                <group>
+                                    <field name="property_type_id" domain="[('name', '=', 'Residential')]"/>
+                                    <field name="listing_date"/>
+                                    <field name="listing_price"/>
+                                    <field name="status"/>
+                                    <field name="agent_id"/>
+                                    <button name="custom_action" string="Custom Button"
+                                    type="object" class="oe_highlight"
+                                    attrs="{'invisible': [('status', '=', 'sold')]}"/>
+                                </group>
+                            </page>
+                            <page string="Property Details">
+                                <group>
+                                    <field name="property_size"/>
+                                    <field name="lot_size"/>
+                                    <field name="year_built"/>
+                                    <field name="amenities"/>
+                                    <!-- <field name="property_tag"/>
+                                    <field name="property_tag_name"/> -->
+                                    <field name="property_document"/>
+                                    
+                                </group>
+                            </page>
+                            <page string="Images">
+                                <group>
+                                 
+                                    <field name="property_image"/>
+
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_property">
+            <field name="name">Properties</field>
+            <field name="res_model">real.estate.property</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem id="menu_property" name="Properties"/>
+        <menuitem id="menu_property_list" name="Property List" parent="menu_property" action="action_property" />
+    </data>
+</odoo>

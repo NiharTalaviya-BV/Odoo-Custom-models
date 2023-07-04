@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record model="ir.ui.view" id="country_tree_view">
+            <field name="name">country.tree.view</field>
+            <field name="model">country.name</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="country"/>
+                </tree>
+            </field>
+        </record>
+    
+
+         <!-- Form View -->
+        <record model="ir.ui.view" id="country_form_view">
+            <field name="name">country.form.view</field>
+            <field name="model">country.name</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <notebook>
+                            <page string="Countries">
+                                <group>
+                                    <field name="country"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_country">
+            <field name="name">Countries</field>
+            <field name="res_model">country.name</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_country" name="Countries"/>
+        <menuitem id="menu_country_list" name="Country List" parent="menu_country" action="action_country" />
+    </data>
+</odoo>
