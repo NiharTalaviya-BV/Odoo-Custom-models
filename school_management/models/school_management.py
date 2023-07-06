@@ -65,7 +65,7 @@ class School(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if 'enrollment_number' not in vals:
+            if 'enrollment_number' not in vals: 
                 vals['enrollment_number'] = self.env['ir.sequence'].next_by_code('school.enrollment.sequence')
                 return super(School, self).create(vals)
             
@@ -91,28 +91,7 @@ class School(models.Model):
                 'type': 'ir.actions.act_window',
             }
             
-    
-    def write(self, vals):
-        res = super(School, self).write(vals)
 
-        if 'name' in vals or 'phone_number' in vals:
-            message = ''
-            if 'name' in vals:
-                message += 'Name updated. '
-            if 'phone_number' in vals:
-                message += 'Phone number updated. '
-
-            self.env['mail.message'].create({
-                'model': self._name,
-                'res_id': self.id,
-                'message_type': 'notification',
-                'partner_ids': [(4, self.env.user.partner_id.id)],
-                'subject': 'Student Information Updated',
-                'body': message,
-            })
-
-        return res
-    
     @api.constrains('phone_number')
     def _check_duplicate_phone_number(self):
         for record in self:
@@ -130,28 +109,10 @@ class School(models.Model):
 
     def save_all_data(self):
 
-        current_name = self.name
-        current_phone_number = self.phone_number
 
         self.write({})
 
-        if self.name != current_name or self.phone_number != current_phone_number:
-            message = ''
-            if self.name != current_name:
-                message += 'Name updated. '
-            if self.phone_number != current_phone_number:
-                message += 'Phone number updated. '
-
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': 'Action Completed',
-                    'message': message,
-                    'sticky': False,
-                },
-            }
-
+        
         self.parents_ids.write({})
         self.previous_school_ids.write({})
 
@@ -173,7 +134,16 @@ class School(models.Model):
     ]
 
         for record in self:
-            if record.standard_division and record.standard_division not in valid_values:
+            if record.standard_division not in valid_values:
                 raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
-            
-    
+ 
+    # @api.constrains('name')
+    # def find_record(self):
+    #     student_name = self.env['school.management'].search([('roll_number', '=', 45)], limit=1)
+      
+    #     if student_name:
+    #         record_id = student_name.id
+    #         print("Record Id:juuuuuuuuuuuuuuuuuuuuu", record_id)
+    #     else:
+    #         print('No record found')
+   
