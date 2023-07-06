@@ -124,7 +124,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_stream">
-            <field name="name">Streams</field>
+            <field name="name">Students</field>
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form</field>
            
@@ -161,7 +161,7 @@
         </record>
 
         <!-- Top-level Menu -->
-        <menuitem id="menu_school_students" name="School" sequence="10"/>
+        <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
         <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
       
         <menuitem id="menu_science_students" name="Science Students" parent="menu_streams" action="action_science_students"/>
