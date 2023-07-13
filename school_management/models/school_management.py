@@ -4,8 +4,9 @@ from odoo.exceptions import ValidationError
 class School(models.Model):
     _name = 'school.management'
     _description = 'School'
-    _inherit = 'mail.thread'                   
-
+    _inherit = ['mail.thread']
+    # _name = "product.template"
+       
     name = fields.Char(string='Name', required=True)
     standard_division = fields.Char(string='Standard & Division')
     roll_number = fields.Integer(string='Roll Number')
@@ -23,8 +24,12 @@ class School(models.Model):
     class_teacher_id = fields.Many2one('school.management.teachers', string='Class Teacher')
     stream = fields.Selection(
         [('science', 'Science'), ('commerce', 'Commerce'), ('arts', 'Arts')],
-        string='Stream', store=True, readonly=False
-    )
+        string='Stream', store=True, readonly=False)
+    fee_detail = fields.Selection([
+        ('pending', 'Pending'), 
+        ('half-paid', 'Half-Paid'), 
+        ('paid', 'Paid')], string='Fee Status')
+    
     birth_month = fields.Selection([ 
         ('01', 'January'),
         ('02', 'February'),
@@ -38,7 +43,11 @@ class School(models.Model):
         ('10', 'October'),
         ('11', 'November'),
         ('12', 'December'),
-        ], string='Birth Month', compute='_compute_birth_month', store=True)      
+        ], string='Birth Month', compute='_compute_birth_month', store=True)   
+
+  
+    division_id = fields.Many2one('school.management.teachers', string = 'division')
+
     
     @api.depends('date_of_birth') 
     def _compute_birth_month(self): 
@@ -60,7 +69,7 @@ class School(models.Model):
                     raise ValidationError("Age cannot be less than 4 years.")
             else:
                 record.age = 0
-           
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -80,39 +89,7 @@ class School(models.Model):
             else:
                 self.class_teacher_id = False
 
-    def open_teacher_form(self):
-        self.ensure_one()
-        if self.class_teacher_id:
-            return {
-                'name': 'Class Teacher',
-                'view_mode': 'form',
-                'res_model': 'school.management.teachers',
-                'res_id': self.class_teacher_id.id,
-                'type': 'ir.actions.act_window',
-            }
-            
-    
-    def write(self, vals):
-        res = super(School, self).write(vals)
-
-        if 'name' in vals or 'phone_number' in vals:
-            message = ''
-            if 'name' in vals:
-                message += 'Name updated. '
-            if 'phone_number' in vals:
-                message += 'Phone number updated. '
-
-            self.env['mail.message'].create({
-                'model': self._name,
-                'res_id': self.id,
-                'message_type': 'notification',
-                'partner_ids': [(4, self.env.user.partner_id.id)],
-                'subject': 'Student Information Updated',
-                'body': message,
-            })
-
-        return res
-    
+        
     @api.constrains('phone_number')
     def _check_duplicate_phone_number(self):
         for record in self:
@@ -130,32 +107,26 @@ class School(models.Model):
 
     def save_all_data(self):
 
-        current_name = self.name
-        current_phone_number = self.phone_number
-
         self.write({})
-
-        if self.name != current_name or self.phone_number != current_phone_number:
-            message = ''
-            if self.name != current_name:
-                message += 'Name updated. '
-            if self.phone_number != current_phone_number:
-                message += 'Phone number updated. '
-
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': 'Action Completed',
-                    'message': message,
-                    'sticky': False,
-                },
-            }
 
         self.parents_ids.write({})
         self.previous_school_ids.write({})
+        self.class_teacher_id.write({})
+        return {
+            'effect': {
+                'fadeout':'slow',
+                'message' : 'saved successfully',
+                'type':'rainbow_man'
+            }
+        }
+    
+    def redirect_class_teacher(self):
+        return{
+            'type':'ir.actions.act_url',
+            'target':'self',
+            'url':'http://localhost:8069/web#action=367&model=school.management.teachers&view_type=list&cids=1&menu_id=259'
+        }
 
-        return True
     
     @api.constrains('standard_division')
     def _check_standard_division(self):
@@ -172,8 +143,39 @@ class School(models.Model):
         '10A', '10B', '10C', '10D'
     ]
 
-        for record in self:
+        for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
             if record.standard_division and record.standard_division not in valid_values:
                 raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
             
+    def action_change_fee_status_paid(self):
+        for rec in self:
+            if rec.fee_detail == "pending" or "half-paid":
+                rec.fee_detail = "paid"
+        
+    def action_change_fee_status_pending(self):
+        for rec in self:
+            if rec.fee_detail == "paid":
+                rec.fee_detail = "pending"
+            
+    def name_get(self):
+        student_list = []
+        record_ids = self.env['school.management'].search([]).ids
+        print("Record ids:",record_ids)
+        for record in self:
+            student_name = record.name + " " +str(record.enrollment_number)
+            student_list.append((record.id, student_name.upper()))
+        return student_list
     
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if args is None:
+            args = []
+        domain = args + ['|', '|', ('phone_number', operator, name), ('name', operator, name), ('enrollment_number', operator, name)]
+        return super(School, self).search(domain, limit=limit).name_get()
+    
+
+    
+
+
+            
+
