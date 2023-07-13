@@ -88,20 +88,7 @@ class School(models.Model):
                 self.class_teacher_id = teacher.id
             else:
                 self.class_teacher_id = False
-
-        
-    def open_teacher_form(self):
-        self.ensure_one()
-        if self.class_teacher_id:
-            return {
-                'name': 'Class Teacher',
-                'view_mode': 'form',
-                'res_model': 'school.management.teachers',
-                'res_id': self.class_teacher_id.id,
-                'type': 'ir.actions.act_window',
-            }
             
-
     @api.constrains('phone_number')
     def _check_duplicate_phone_number(self):
         for record in self:
@@ -186,15 +173,6 @@ class School(models.Model):
         return super(School, self).search(domain, limit=limit).name_get()
     
 
-    
-
-
-            
-
-        for record in self:
-            if record.standard_division not in valid_values:
-                raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
- 
     # @api.constrains('name')
     # def find_record(self):
     #     student_name = self.env['school.management'].search([('roll_number', '=', 45)], limit=1)
@@ -204,4 +182,16 @@ class School(models.Model):
     #         print("Record Id:juuuuuuuuuuuuuuuuuuuuu", record_id)
     #     else:
     #         print('No record found')
+
+
+        # def open_teacher_form(self):
+    #     self.ensure_one()
+    #     if self.class_teacher_id:
+    #         return {
+    #             'name': 'Class Teacher',
+    #             'view_mode': 'form',
+    #             'res_model': 'school.management.teachers',
+    #             'res_id': self.class_teacher_id.id,
+    #             'type': 'ir.actions.act_window',
+    #         }
    
