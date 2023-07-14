@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 class School(models.Model):
     _name = 'school.management'
     _description = 'School'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'school.management.teachers']
     # _name = "product.template"
        
     name = fields.Char(string='Name', required=True)
@@ -172,9 +172,22 @@ class School(models.Model):
         domain = args + ['|', '|', ('phone_number', operator, name), ('name', operator, name), ('enrollment_number', operator, name)]
         return super(School, self).search(domain, limit=limit).name_get()
     
+    def write(self,values):
+    
+        # print(res, self)
+        if 'date_of_birth' in values:
+            print(values, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+            record_id = [22]
+            res = self.env['school.management'].browse(record_id)
+            print(res)
+            res.name='Ndgdgsdgsfbifnubinfoioiyuiyuiyuiiuuyidfhoooooo'
+            res.phone_number=9632587410
+        # result = 
+        return super(School,self).write(values)
+    
 
     # @api.constrains('name')
-    # def find_record(self):
+    # def write(self):
     #     student_name = self.env['school.management'].search([('roll_number', '=', 45)], limit=1)
       
     #     if student_name:
@@ -194,4 +207,6 @@ class School(models.Model):
     #             'res_id': self.class_teacher_id.id,
     #             'type': 'ir.actions.act_window',
     #         }
+
+
    

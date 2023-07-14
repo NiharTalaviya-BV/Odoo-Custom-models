@@ -9,11 +9,11 @@
     'data': [
         'security/ir.model.access.csv',
         'views/school_views.xml',
-        'views/demo_data.xml',
+        # 'views/demo_data.xml',
         'data/ir_sequence_data.xml',
     ],
     'installable': True,
     'application': True,
-    'auto_install': False,
+    'auto_install': True,
     'license': 'LGPL-3'
 }
