@@ -11,6 +11,7 @@
                     <field name="enrollment_number"/>
                     <field name="standard_division"/>
                     <field name="age"/>
+                    <field name="fee_detail"/>
                     <field name="class_teacher_id"/>
                     <field name="date_of_birth"/>
                 </tree>
@@ -27,6 +28,7 @@
                 <form>
                     <header>
                         <button name="save_all_data" string="Save" type="object" class="oe_highlight"/>
+                        <button name="redirect_class_teacher" string="Class Details" type="object" class="oe_highlight"/>
                     </header>
                         <sheet>
                              <div class="oe_title" >
@@ -34,6 +36,8 @@
                                     <field name="enrollment_number" readonly="1" style="font-family: sans-serif;"/>
                                 </h1>
                             </div>
+
+                          
                            
                             <div style="display: flex;">
                                     <div style= "margin-right: 20px;">
@@ -42,6 +46,7 @@
                                             <field name="name"/>
                                             <field name="standard_division"/>
                                             <field name="roll_number"/>
+                                            <field name="division_id"/>
                                         </group>
                                     </div>
 
@@ -52,6 +57,7 @@
                                             <field name="date_of_birth"/>
                                             <field name="age" readonly="1"/>
                                             <field name="class_teacher_id"/>
+                                            <field name="fee_detail"/>
                                         </group>
                                     </div>
                                     <div>
@@ -135,6 +141,7 @@
             <field name="name">Science Students</field>
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'default_stream' : 'science'}</field>
             <field name="domain">[('stream', '=', 'science')]</field>
         </record>
 
@@ -143,6 +150,7 @@
             <field name="name">Commerce Students</field>
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'default_stream' : 'commerce'}</field>
             <field name="domain">[('stream', '=', 'commerce')]</field>
         </record>
 
@@ -151,6 +159,7 @@
             <field name="name">Arts Students</field>
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'default_stream' : 'arts'}</field>
             <field name="domain">[('stream', '=', 'arts')]</field>
         </record>
 
@@ -159,7 +168,6 @@
             <field name="res_model">school.management.teachers</field>
             <field name="view_mode">tree,form</field>
         </record>
-
         <!-- Top-level Menu -->
         <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
         <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
@@ -168,5 +176,33 @@
         <menuitem id="menu_commerce_students" name="Commerce Students" parent="menu_streams" action="action_commerce_students"/>
         <menuitem id="menu_arts_students" name="Arts Students" parent="menu_streams" action="action_arts_students"/>
         <menuitem id="menu_teachers" name="Class Teachers" parent="menu_school_students" action="action_teacher_details"/>
+
+
+        <record id="action_change_fee_status_paid" model="ir.actions.server">
+            <field name="name">Status Paid</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_school_management"/>
+            <field name="binding_model_id" ref="model_school_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                records.action_change_fee_status_paid()
+                    
+            </field>
+        </record>
+
+          <record id="action_change_fee_status_pending" model="ir.actions.server">
+            <field name="name">Status Pending</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_school_management"/>
+            <field name="binding_model_id" ref="model_school_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                records.action_change_fee_status_pending()
+                    
+            </field>
+        </record>
+
     </data>
-</odoo>                                
+</odoo>    

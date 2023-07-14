@@ -4,8 +4,9 @@ from odoo.exceptions import ValidationError
 class School(models.Model):
     _name = 'school.management'
     _description = 'School'
-    _inherit = 'mail.thread'                   
-
+    _inherit = ['mail.thread', 'school.management.teachers']
+    # _name = "product.template"
+       
     name = fields.Char(string='Name', required=True)
     standard_division = fields.Char(string='Standard & Division')
     roll_number = fields.Integer(string='Roll Number')
@@ -23,8 +24,12 @@ class School(models.Model):
     class_teacher_id = fields.Many2one('school.management.teachers', string='Class Teacher')
     stream = fields.Selection(
         [('science', 'Science'), ('commerce', 'Commerce'), ('arts', 'Arts')],
-        string='Stream', store=True, readonly=False
-    )
+        string='Stream', store=True, readonly=False)
+    fee_detail = fields.Selection([
+        ('pending', 'Pending'), 
+        ('half-paid', 'Half-Paid'), 
+        ('paid', 'Paid')], string='Fee Status')
+    
     birth_month = fields.Selection([ 
         ('01', 'January'),
         ('02', 'February'),
@@ -38,7 +43,11 @@ class School(models.Model):
         ('10', 'October'),
         ('11', 'November'),
         ('12', 'December'),
-        ], string='Birth Month', compute='_compute_birth_month', store=True)      
+        ], string='Birth Month', compute='_compute_birth_month', store=True)   
+
+  
+    division_id = fields.Many2one('school.management.teachers', string = 'division')
+
     
     @api.depends('date_of_birth') 
     def _compute_birth_month(self): 
@@ -60,7 +69,7 @@ class School(models.Model):
                     raise ValidationError("Age cannot be less than 4 years.")
             else:
                 record.age = 0
-           
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -79,19 +88,7 @@ class School(models.Model):
                 self.class_teacher_id = teacher.id
             else:
                 self.class_teacher_id = False
-
-    def open_teacher_form(self):
-        self.ensure_one()
-        if self.class_teacher_id:
-            return {
-                'name': 'Class Teacher',
-                'view_mode': 'form',
-                'res_model': 'school.management.teachers',
-                'res_id': self.class_teacher_id.id,
-                'type': 'ir.actions.act_window',
-            }
             
-
     @api.constrains('phone_number')
     def _check_duplicate_phone_number(self):
         for record in self:
@@ -109,14 +106,26 @@ class School(models.Model):
 
     def save_all_data(self):
 
-
         self.write({})
 
-        
         self.parents_ids.write({})
         self.previous_school_ids.write({})
+        self.class_teacher_id.write({})
+        return {
+            'effect': {
+                'fadeout':'slow',
+                'message' : 'saved successfully',
+                'type':'rainbow_man'
+            }
+        }
+    
+    def redirect_class_teacher(self):
+        return{
+            'type':'ir.actions.act_url',
+            'target':'self',
+            'url':'http://localhost:8069/web#action=367&model=school.management.teachers&view_type=list&cids=1&menu_id=259'
+        }
 
-        return True
     
     @api.constrains('standard_division')
     def _check_standard_division(self):
@@ -133,12 +142,52 @@ class School(models.Model):
         '10A', '10B', '10C', '10D'
     ]
 
-        for record in self:
-            if record.standard_division not in valid_values:
+        for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
+            if record.standard_division and record.standard_division not in valid_values:
                 raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
- 
+            
+    def action_change_fee_status_paid(self):
+        for rec in self:
+            if rec.fee_detail == "pending" or "half-paid":
+                rec.fee_detail = "paid"
+        
+    def action_change_fee_status_pending(self):
+        for rec in self:
+            if rec.fee_detail == "paid":
+                rec.fee_detail = "pending"
+            
+    def name_get(self):
+        student_list = []
+        record_ids = self.env['school.management'].search([]).ids
+        print("Record ids:",record_ids)
+        for record in self:
+            student_name = record.name + " " +str(record.enrollment_number)
+            student_list.append((record.id, student_name.upper()))
+        return student_list
+    
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if args is None:
+            args = []
+        domain = args + ['|', '|', ('phone_number', operator, name), ('name', operator, name), ('enrollment_number', operator, name)]
+        return super(School, self).search(domain, limit=limit).name_get()
+    
+    def write(self,values):
+    
+        # print(res, self)
+        if 'date_of_birth' in values:
+            print(values, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+            record_id = [22]
+            res = self.env['school.management'].browse(record_id)
+            print(res)
+            res.name='Ndgdgsdgsfbifnubinfoioiyuiyuiyuiiuuyidfhoooooo'
+            res.phone_number=9632587410
+        # result = 
+        return super(School,self).write(values)
+    
+
     # @api.constrains('name')
-    # def find_record(self):
+    # def write(self):
     #     student_name = self.env['school.management'].search([('roll_number', '=', 45)], limit=1)
       
     #     if student_name:
@@ -146,4 +195,18 @@ class School(models.Model):
     #         print("Record Id:juuuuuuuuuuuuuuuuuuuuu", record_id)
     #     else:
     #         print('No record found')
+
+
+        # def open_teacher_form(self):
+    #     self.ensure_one()
+    #     if self.class_teacher_id:
+    #         return {
+    #             'name': 'Class Teacher',
+    #             'view_mode': 'form',
+    #             'res_model': 'school.management.teachers',
+    #             'res_id': self.class_teacher_id.id,
+    #             'type': 'ir.actions.act_window',
+    #         }
+
+
    
