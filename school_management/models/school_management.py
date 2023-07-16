@@ -176,11 +176,10 @@ class School(models.Model):
     
         # print(res, self)
         if 'date_of_birth' in values:
-            print(values, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvv')
             record_id = [22]
             res = self.env['school.management'].browse(record_id)
             print(res)
-            res.name='Ndgdgsdgsfbifnubinfoioiyuiyuiyuiiuuyidfhoooooo'
+            res.name='Niharrrr'
             res.phone_number=9632587410
         # result = 
         return super(School,self).write(values)
