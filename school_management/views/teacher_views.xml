@@ -1,0 +1,16 @@
+<odoo>
+     <data>
+          <!-- Tree View -->
+        <record model="ir.ui.view" id="view_class_teacher_tree">
+            <field name="name">teacher.tree.view</field>
+            <field name="model">school.management.teachers</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="standard_division"/>        
+                </tree>
+                
+            </field>
+        </record>
+    </data>
+</odoo>
