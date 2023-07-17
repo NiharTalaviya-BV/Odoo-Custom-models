@@ -127,24 +127,24 @@ class School(models.Model):
         }
 
     
-    @api.constrains('standard_division')
-    def _check_standard_division(self):
-        valid_values = [
-        '1A', '1B', '1C', '1D',
-        '2A', '2B', '2C', '2D',
-        '3A', '3B', '3C', '3D',
-        '4A', '4B', '4C', '4D',
-        '5A', '5B', '5C', '5D',
-        '6A', '6B', '6C', '6D',
-        '7A', '7B', '7C', '7D',
-        '8A', '8B', '8C', '8D',
-        '9A', '9B', '9C', '9D',
-        '10A', '10B', '10C', '10D'
-    ]
+    # @api.constrains('standard_division')
+    # def _check_standard_division(self):
+    #     valid_values = [
+    #     '1A', '1B', '1C', '1D',
+    #     '2A', '2B', '2C', '2D',
+    #     '3A', '3B', '3C', '3D',
+    #     '4A', '4B', '4C', '4D',
+    #     '5A', '5B', '5C', '5D',
+    #     '6A', '6B', '6C', '6D',
+    #     '7A', '7B', '7C', '7D',
+    #     '8A', '8B', '8C', '8D',
+    #     '9A', '9B', '9C', '9D',
+    #     '10A', '10B', '10C', '10D'
+    # ]
 
-        for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
-            if record.standard_division and record.standard_division not in valid_values:
-                raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
+    #     for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    #         if record.standard_division and record.standard_division not in valid_values:
+    #             raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
             
     def action_change_fee_status_paid(self):
         for rec in self:
@@ -184,6 +184,14 @@ class School(models.Model):
             res.phone_number=9632587410
         # result = 
         return super(School,self).write(values)
+    
+    
+    @api.onchange('standard_division')
+    def create_related_record(self):
+        if self.standard_division:
+            self.env['school.management.teachers'].create({'name':'xyzzzzzz', 'standard_division': self.standard_division})
+            
+           
     
 
     # @api.constrains('name')
