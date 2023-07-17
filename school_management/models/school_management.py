@@ -71,13 +71,27 @@ class School(models.Model):
                 record.age = 0
 
 
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     for vals in vals_list:
+    #         if 'enrollment_number' not in vals: 
+    #             vals['enrollment_number'] = self.env['ir.sequence'].next_by_code('school.enrollment.sequence')
+    #             return super(School, self).create(vals)
+            
+
+
     @api.model_create_multi
     def create(self, vals_list):
+        existing_enrollments = self.search([('enrollment_number', 'like', 'ENR')])
+        last_enrollment = existing_enrollments and max(existing_enrollments.mapped('enrollment_number')) or 'ENR0003'
+        sequence = int(last_enrollment[3:]) + 1
+        
         for vals in vals_list:
-            if 'enrollment_number' not in vals: 
-                vals['enrollment_number'] = self.env['ir.sequence'].next_by_code('school.enrollment.sequence')
-                return super(School, self).create(vals)
-            
+            if 'enrollment_number' not in vals:
+                vals['enrollment_number'] = f'ENR{sequence:04d}'
+        return super(School, self).create(vals_list)
+    
+
     @api.onchange('standard_division')
     def _onchange_standard_division(self):
         if self.standard_division:
@@ -173,16 +187,12 @@ class School(models.Model):
         return super(School, self).search(domain, limit=limit).name_get()
     
     def write(self,values):
-    
-        # print(res, self)
         if 'date_of_birth' in values:
-            print(values, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvv')
-            record_id = [22]
+            record_id = [12]
             res = self.env['school.management'].browse(record_id)
             print(res)
-            res.name='Ndgdgsdgsfbifnubinfoioiyuiyuiyuiiuuyidfhoooooo'
+            res.name='Niharrrrr'
             res.phone_number=9632587410
-        # result = 
         return super(School,self).write(values)
     
     
