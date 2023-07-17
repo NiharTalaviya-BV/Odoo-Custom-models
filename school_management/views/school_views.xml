@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="status"/>
                     <field name="enrollment_number"/>
                     <field name="standard_division"/>
                     <field name="age"/>
@@ -47,6 +48,8 @@
                                             <field name="standard_division"/>
                                             <field name="roll_number"/>
                                             <field name="division_id"/>
+                                            <field name="status"/>
+
                                         </group>
                                     </div>
 
@@ -171,11 +174,12 @@
         <!-- Top-level Menu -->
         <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
         <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
-      
+        
         <menuitem id="menu_science_students" name="Science Students" parent="menu_streams" action="action_science_students"/>
         <menuitem id="menu_commerce_students" name="Commerce Students" parent="menu_streams" action="action_commerce_students"/>
         <menuitem id="menu_arts_students" name="Arts Students" parent="menu_streams" action="action_arts_students"/>
         <menuitem id="menu_teachers" name="Class Teachers" parent="menu_school_students" action="action_teacher_details"/>
+        <menuitem id="menu_cancel_form" name="Cancel Application" parent="menu_school_students" action="action_cancel_form"/>
 
 
         <record id="action_change_fee_status_paid" model="ir.actions.server">

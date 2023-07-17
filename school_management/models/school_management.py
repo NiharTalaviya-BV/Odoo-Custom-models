@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 class School(models.Model):
     _name = 'school.management'
     _description = 'School'
-    _inherit = ['mail.thread', 'school.management.teachers']
+    _inherit = ['mail.thread']
     # _name = "product.template"
        
     name = fields.Char(string='Name', required=True)
@@ -47,6 +47,7 @@ class School(models.Model):
 
   
     division_id = fields.Many2one('school.management.teachers', string = 'division')
+    status=fields.Selection([('active','Active'),('left-school',"Left-School")], string="Student Status")
 
     
     @api.depends('date_of_birth') 
@@ -138,7 +139,7 @@ class School(models.Model):
         return{
             'type':'ir.actions.act_url',
             'target':'self',
-            'url':'http://localhost:8069/web#action=367&model=school.management.teachers&view_type=list&cids=1&menu_id=259'
+            'url':'http://localhost:8069/web#action=438&model=school.management.teachers&view_type=list&cids=1&menu_id=259'
         }
 
     
