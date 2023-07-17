@@ -199,7 +199,7 @@ class School(models.Model):
     # @api.onchange('standard_division')
     # def create_related_record(self):
     #     if self.standard_division:
-    #         self.env['school.management.teachers'].create({'name':'xyzzzzzz', 'standard_division': self.standard_division})
+    #        self.env['school.management.teachers'].create({'name':'xyzzzzzz', 'standard_division': self.standard_division})
             
            
     
