@@ -9,7 +9,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/school_views.xml',
-        # 'views/demo_data.xml',
+        'views/demo_data.xml',
+        'views/teacher_views.xml',
+
         'data/ir_sequence_data.xml',
     ],
     'installable': True,
