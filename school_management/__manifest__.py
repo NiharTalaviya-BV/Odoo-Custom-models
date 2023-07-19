@@ -11,7 +11,7 @@
         'data/ir_sequence_data.xml',
         'wizard/cancel_form_view.xml',
         'views/school_views.xml',
-        'views/demo_data.xml',
+        # 'views/demo_data.xml',
         'views/teacher_views.xml',
 
         
