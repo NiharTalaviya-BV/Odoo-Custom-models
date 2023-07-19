@@ -25,11 +25,13 @@ class School(models.Model):
     stream = fields.Selection(
         [('science', 'Science'), ('commerce', 'Commerce'), ('arts', 'Arts')],
         string='Stream', store=True, readonly=False)
+    create_date = fields.Datetime()
+    write_date = fields.Datetime()
     fee_detail = fields.Selection([
         ('pending', 'Pending'), 
         ('half-paid', 'Half-Paid'), 
         ('paid', 'Paid')], string='Fee Status')
-    
+    active = fields.Boolean(default=True)
     birth_month = fields.Selection([ 
         ('01', 'January'),
         ('02', 'February'),
@@ -86,7 +88,6 @@ class School(models.Model):
         existing_enrollments = self.search([('enrollment_number', 'like', 'ENR')])
         last_enrollment = existing_enrollments and max(existing_enrollments.mapped('enrollment_number')) or 'ENR0003'
         sequence = int(last_enrollment[3:]) + 1
-        
         for vals in vals_list:
             if 'enrollment_number' not in vals:
                 vals['enrollment_number'] = f'ENR{sequence:04d}'
@@ -142,24 +143,24 @@ class School(models.Model):
         }
 
     
-    # @api.constrains('standard_division')
-    # def _check_standard_division(self):
-    #     valid_values = [
-    #     '1A', '1B', '1C', '1D',
-    #     '2A', '2B', '2C', '2D',
-    #     '3A', '3B', '3C', '3D',
-    #     '4A', '4B', '4C', '4D',
-    #     '5A', '5B', '5C', '5D',
-    #     '6A', '6B', '6C', '6D',
-    #     '7A', '7B', '7C', '7D',
-    #     '8A', '8B', '8C', '8D',
-    #     '9A', '9B', '9C', '9D',
-    #     '10A', '10B', '10C', '10D'
-    # ]
+    @api.constrains('standard_division')
+    def _check_standard_division(self):
+        valid_values = [
+        '1A', '1B', '1C', '1D',
+        '2A', '2B', '2C', '2D',
+        '3A', '3B', '3C', '3D',
+        '4A', '4B', '4C', '4D',
+        '5A', '5B', '5C', '5D',
+        '6A', '6B', '6C', '6D',
+        '7A', '7B', '7C', '7D',
+        '8A', '8B', '8C', '8D',
+        '9A', '9B', '9C', '9D',
+        '10A', '10B', '10C', '10D'
+    ]
 
-    #     for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
-    #         if record.standard_division and record.standard_division not in valid_values:
-    #             raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
+        for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
+            if record.standard_division and record.standard_division not in valid_values:
+                raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
             
     def action_change_fee_status_paid(self):
         for rec in self:
@@ -176,7 +177,7 @@ class School(models.Model):
         record_ids = self.env['school.management'].search([]).ids
         print("Record ids:",record_ids)
         for record in self:
-            student_name = record.name + " " +str(record.enrollment_number)
+            student_name = str(record.name) + " " + str(record.enrollment_number)
             student_list.append((record.id, student_name.upper()))
         return student_list
     
@@ -196,14 +197,22 @@ class School(models.Model):
             res.phone_number=9632587410
         return super(School,self).write(values)
     
+
+    def action_cancel_application(self):
+        for record in self:
+            record.status = 'left-school'
+
+    def action_active_student(self):
+        for record in self:
+            record.status='active'
+         
+    
     
     # @api.onchange('standard_division')
     # def create_related_record(self):
     #     if self.standard_division:
     #        self.env['school.management.teachers'].create({'name':'xyzzzzzz', 'standard_division': self.standard_division})
             
-           
-    
 
     # @api.constrains('name')
     # def write(self):

@@ -7,25 +7,38 @@
                 <form string="Cancel Application">
                     <group>
                         <field name="name_id"/>
+                        
                     </group>
                     <footer>
-                        <button name="cancel_form" string="Cancel Application" type="object" class="oe_highlight"/>
+                        <!-- <button name="%(action_cancel_application)d" string="Cancel Application" type="object" class="oe_highlight"/> -->
                         <button string="Cancel" class="btn-secondary" special="cancel"/>
                     </footer>
                 </form>
             </field>
         </record>
 
+        <record model="ir.ui.view" id="cancel_detail_form_custom">
+            <field name="name">cancel.detail.wizard.form.custom</field>
+            <field name="model">cancel.button.wizard</field>
+            <field name="inherit_id" ref="cancel_detail_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//footer" position="inside">
+                        <button name="action_cancel_application" string="Cancel Application" type="object" class="oe_highlight"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
 
         <record model="ir.actions.act_window" id="action_cancel_form">
             <field name="name">Cancel Applicaltion</field>
             <field name="res_model">cancel.button.wizard</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="cancel_detail_form"></field>
-            
-            <field name="target">new</field>
-            
-
+            <field name="view_id" ref="cancel_detail_form"></field>  
+            <field name="target">new</field> 
         </record>
+
+        <menuitem id="menu_cancel_application" name="Cancel Application" action="action_cancel_form" parent="base.menu_administration"/>
+
     </data>
 </odoo>

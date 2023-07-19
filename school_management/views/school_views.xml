@@ -1,5 +1,53 @@
 <odoo>
     <data>
+
+        <record model="ir.ui.view" id="view_school_management_kanban">
+            <field name="name">school.management.kanban.view</field>
+            <field name="model">school.management</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_card">
+                                    <div class="oe_kanban_card_inner">
+                                        <div class="oe_kanban_card_header">
+                                            <div class="oe_kanban_card_title">
+                                                <field name="name"/>
+                                                <field name="enrollment_number"/>
+                                            </div>
+                                        </div>
+                                        <div class="oe_kanban_card_content">
+                                            <field name="roll_number"/>                                 
+                                        </div> 
+                                         <div class="oe_kanban_card_content">
+                                            <field name="standard_division"/>                                 
+                                        </div> 
+                                         <div class="oe_kanban_card_content">
+                                            <field name="class_teacher_id"/>                                 
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="school_management_pivot_view">
+            <field name="name">school_management.pivot.view</field>
+            <field name="model">school.management</field>
+            <field name="arch" type="xml">
+                <pivot string="Class Students">
+                    <field name="name" type="row"/>
+                    <field name="class_teacher_id" type="col"/>
+                    <!-- <field name="age" type="measure"/> -->
+                </pivot>
+            </field>
+        </record>
+
+
         
           <!-- Tree View -->
         <record model="ir.ui.view" id="view_school_management_tree">
@@ -9,6 +57,8 @@
                 <tree>
                     <field name="name"/>
                     <field name="status"/>
+                    <field name="write_date"/>
+                    <field name="create_date"/>
                     <field name="enrollment_number"/>
                     <field name="standard_division"/>
                     <field name="age"/>
@@ -42,37 +92,33 @@
                            
                             <div style="display: flex;">
                                     <div style= "margin-right: 20px;">
-                        
                                         <group>
                                             <field name="name"/>
+                                            
                                             <field name="standard_division"/>
                                             <field name="roll_number"/>
-                                            <field name="division_id"/>
+                                            <field name="division_id" no_create='1'/>
                                             <field name="status"/>
-
                                         </group>
                                     </div>
-
                                     <div style="margin-right: 20px;">
-                                        <group>
-                                         
+                                        <group>                      
                                             <field name="phone_number"/>
                                             <field name="date_of_birth"/>
                                             <field name="age" readonly="1"/>
                                             <field name="class_teacher_id"/>
                                             <field name="fee_detail"/>
+                                            <field name="active"/>
                                         </group>
                                     </div>
                                     <div>
-                                        <group>
-                                          
+                                        <group>  
                                             <field name="stream" attrs = "{'invisible':[('standard_division','not in',['11' , '12'])]}"/>
                                             <field name="street"/>
                                             <field name="city"/>
                                             <field name="zipcode"/>
                                             <field name="state_id"/>
-                                            <field name="country_id"/>
-
+                                            <field name="country_id" options="{'no_create': True, 'no_create_edit':True}"/>
                                         </group>
                                     </div>                                           
                             </div>
@@ -128,7 +174,7 @@
         <record model="ir.actions.act_window" id="school_action"> 
             <field name="name">Student</field>
             <field name="res_model">school.management</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban,pivot</field>
             <field name="context">{'search_default_filter_10th': 1, 'search_default_group_birth_month': 1}</field>
         </record>
 
@@ -171,6 +217,13 @@
             <field name="res_model">school.management.teachers</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+        <record model="ir.actions.act_window" id="action_cancel_form">
+            <field name="name">Cancel Application</field>
+            <field name="res_model">cancel.button.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+
         <!-- Top-level Menu -->
         <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
         <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
@@ -198,7 +251,7 @@
           <record id="action_change_fee_status_pending" model="ir.actions.server">
             <field name="name">Status Pending</field>
             <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="model_school_management"/>
+            <field name="model_id" ref="model_school_management"/>  
             <field name="binding_model_id" ref="model_school_management"/>
             <field name="state">code</field>
             <field name="code">
@@ -207,6 +260,34 @@
                     
             </field>
         </record>
+    
+
+        <record id="action_cancel_application" model="ir.actions.server">
+            <field name="name">Cancel Application</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_school_management"/>  
+            <field name="binding_model_id" ref="model_school_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    records.action_cancel_application()
+                    
+            </field>
+        </record>
+
+        
+        <record id="action_cancel_application" model="ir.actions.server">
+            <field name="name">Active Student</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_school_management"/>  
+            <field name="binding_model_id" ref="model_school_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    records.action_active_student()
+                    
+            </field>
+        </record>  
 
     </data>
 </odoo>    
