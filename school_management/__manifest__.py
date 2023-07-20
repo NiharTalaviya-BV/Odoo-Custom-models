@@ -3,6 +3,7 @@
     'version': '16.0',
     'summary': 'Module for managing schools',
     'description': 'School Management module',
+    'sequence': '1',
     'author': 'Nihar Talaviya',
     'category': 'Education',
     'depends': ['base','mail'], 
@@ -16,6 +17,7 @@
 
         
     ],
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,
     'auto_install': True,

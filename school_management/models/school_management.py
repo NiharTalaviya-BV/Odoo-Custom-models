@@ -225,7 +225,7 @@ class School(models.Model):
     #         print('No record found')
 
 
-        # def open_teacher_form(self):
+    #     def open_teacher_form(self):
     #     self.ensure_one()
     #     if self.class_teacher_id:
     #         return {
