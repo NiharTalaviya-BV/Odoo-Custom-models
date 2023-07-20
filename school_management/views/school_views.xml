@@ -166,10 +166,11 @@
                     </group>
                     <field name="standard_division" string="Standard &amp; Division"/>
                     <filter name="filter_10th" string="10th Standard" domain="[('standard_division', '=', '10')]"/>
+
                 </search>
             </field>
         </record>
-
+    
         <!-- Action -->
         <record model="ir.actions.act_window" id="school_action"> 
             <field name="name">Student</field>
