@@ -1,18 +1,16 @@
 <!-- Demo Data -->
 <odoo>
-<record id="demo_student_1" model="school.management">
-    <field name="name">Student 1</field>
-    <field name="phone_number">1111911111</field>
-    <field name="enrollment_number">ENR0001</field>
-</record>
-<record id="demo_student_2" model="school.management">
-    <field name="name">Student 2</field>
-    <field name="phone_number">2122222222</field>
-    <field name="enrollment_number">ENR0002</field>
-</record>
-<record id="demo_student_3" model="school.management">
-    <field name="name">Student 3</field>
-    <field name="phone_number">3333333393</field>
-    <field name="enrollment_number">ENR0003</field>
-</record>
+    <record id="demo_student_1" model="school.management">
+        <field name="name">Student 1</field>
+        <field name="phone_number">1111911111</field>
+    </record>
+    <record id="demo_student_2" model="school.management">
+        <field name="name">Student 2</field>
+        <field name="phone_number">2122222222</field>
+    </record>
+    <record id="demo_student_3" model="school.management">
+        <field name="name">Student 3</field>
+        <field name="phone_number">3333333393</field>
+
+    </record>
 </odoo>

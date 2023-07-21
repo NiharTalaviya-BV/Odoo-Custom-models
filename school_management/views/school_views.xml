@@ -48,6 +48,19 @@
         </record>
 
 
+        <record model="ir.ui.view" id="school_management_graph_view">
+            <field name="name">school.management.graph.view</field>
+            <field name="model">school.management</field>
+            <field name="arch" type="xml">
+                <graph string="Students by Age" type="bar">
+                    <field name="age" type="row"/>
+                    <field name="id" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+
         
           <!-- Tree View -->
         <record model="ir.ui.view" id="view_school_management_tree">
@@ -93,9 +106,10 @@
                             <div style="display: flex;">
                                     <div style= "margin-right: 20px;">
                                         <group>
+                                            <field name="progress_bar" widget="progressbar"/>
                                             <field name="name"/>
                                             
-                                            <field name="standard_division"/>
+                                            <field name="standard_division"/>                        
                                             <field name="roll_number"/>
                                             <field name="division_id" no_create='1'/>
                                             <field name="status"/>
@@ -175,7 +189,7 @@
         <record model="ir.actions.act_window" id="school_action"> 
             <field name="name">Student</field>
             <field name="res_model">school.management</field>
-            <field name="view_mode">tree,form,kanban,pivot</field>
+            <field name="view_mode">tree,form,kanban,pivot,graph</field>
             <field name="context">{'search_default_filter_10th': 1, 'search_default_group_birth_month': 1}</field>
         </record>
 

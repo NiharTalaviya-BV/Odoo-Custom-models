@@ -10,7 +10,6 @@
                         
                     </group>
                     <footer>
-                        <!-- <button name="%(action_cancel_application)d" string="Cancel Application" type="object" class="oe_highlight"/> -->
                         <button string="Cancel" class="btn-secondary" special="cancel"/>
                     </footer>
                 </form>

@@ -1,5 +1,8 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+import json
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 class School(models.Model):
     _name = 'school.management'
@@ -50,6 +53,36 @@ class School(models.Model):
   
     division_id = fields.Many2one('school.management.teachers', string = 'division')
     status=fields.Selection([('active','Active'),('left-school',"Left-School")], string="Student Status")
+    progress_bar = fields.Integer(compute='_compute_progress_bar', string='Progress')
+
+    @api.depends('name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
+                 'city', 'zipcode', 'country_id', 'state_id', 'phone_number', 'date_of_birth',
+                 'parents_ids', 'previous_school_ids', 'class_teacher_id', 'stream', 'fee_detail',
+                 'active', 'birth_month', 'division_id', 'status')
+    def _compute_progress_bar(self):
+     
+        fields_to_include = [
+            'name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
+            'city', 'zipcode', 'country_id', 'state_id', 'phone_number', 'date_of_birth',
+            'parents_ids', 'previous_school_ids', 'class_teacher_id', 'stream', 'fee_detail',
+            'active', 'birth_month', 'division_id', 'status'
+        ]
+        total_fields = len(fields_to_include)
+        filled_fields = 0
+
+        for record in self:
+            for field_name in fields_to_include:
+                field_value = record[field_name]
+                if field_value:
+                    # Check if the field has a value (not empty or False)
+                    filled_fields += 1
+
+            # Calculate the percentage and set the value of the progress_bar field
+            if total_fields > 0:
+                progress_percentage = (filled_fields / total_fields) * 100
+                record.progress_bar = min(int(progress_percentage), 100)
+            else:
+                record.progress_bar = 0
 
     
     @api.depends('date_of_birth') 
@@ -82,17 +115,18 @@ class School(models.Model):
     #             return super(School, self).create(vals)
             
 
-
     @api.model_create_multi
     def create(self, vals_list):
-        existing_enrollments = self.search([('enrollment_number', 'like', 'ENR')])
-        last_enrollment = existing_enrollments and max(existing_enrollments.mapped('enrollment_number')) or 'ENR0003'
-        sequence = int(last_enrollment[3:]) + 1
+        existing_enrollments = self.search([('enrollment_number', 'like', 'ENR')], order='enrollment_number desc', limit=1)
+        last_enrollment = existing_enrollments.enrollment_number if existing_enrollments else 'ENR0000'
+        sequence = int(last_enrollment[3:])
         for vals in vals_list:
             if 'enrollment_number' not in vals:
+                sequence += 1
                 vals['enrollment_number'] = f'ENR{sequence:04d}'
         return super(School, self).create(vals_list)
-    
+
+       
 
     @api.onchange('standard_division')
     def _onchange_standard_division(self):
@@ -192,7 +226,6 @@ class School(models.Model):
         if 'date_of_birth' in values:
             record_id = [12]
             res = self.env['school.management'].browse(record_id)
-            print(res)
             res.name='Niharrrrr'
             res.phone_number=9632587410
         return super(School,self).write(values)
@@ -235,6 +268,6 @@ class School(models.Model):
     #             'res_id': self.class_teacher_id.id,
     #             'type': 'ir.actions.act_window',
     #         }
-
+    
 
    
