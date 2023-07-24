@@ -24,7 +24,7 @@ class School(models.Model):
     age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True)
     parents_ids = fields.One2many('school.management.parents', 'student_id', string='Parents')
     previous_school_ids = fields.One2many('school.management.previous.school', 'student_id', string='Previous Schools')
-    class_teacher_id = fields.Many2one('school.management.teachers', string='Class Teacher')
+    class_teacher_id = fields.Many2one('school.management.teachers', compute= '_compute_fields_from_model_b',  string='Class Teacher')
     stream = fields.Selection(
         [('science', 'Science'), ('commerce', 'Commerce'), ('arts', 'Arts')],
         string='Stream', store=True, readonly=False)
@@ -49,6 +49,15 @@ class School(models.Model):
         ('11', 'November'),
         ('12', 'December'),
         ], string='Birth Month', compute='_compute_birth_month', store=True)   
+    
+    @api.depends('class_teacher_id.name')
+    def _compute_fields_from_model_b(self):
+        for record in self:
+            if record.class_teacher_id:
+                recordname =record.class_teacher_id = record.class_teacher_id.name
+                print(recordname)
+            else:
+                record.class_teacher_id = False
 
   
     division_id = fields.Many2one('school.management.teachers', string = 'division')
@@ -124,8 +133,8 @@ class School(models.Model):
             if 'enrollment_number' not in vals:
                 sequence += 1
                 vals['enrollment_number'] = f'ENR{sequence:04d}'
-        return super(School, self).create(vals_list)
-
+            context = dict(self._context, skip_progress_bar_update=True)
+            return super(School, self.with_context(context)).create(vals_list)
        
 
     @api.onchange('standard_division')
@@ -269,5 +278,5 @@ class School(models.Model):
     #             'type': 'ir.actions.act_window',
     #         }
     
-
+    
    
