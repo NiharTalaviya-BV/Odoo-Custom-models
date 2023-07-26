@@ -1,6 +1,5 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
-import json
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -8,10 +7,21 @@ class School(models.Model):
     _name = 'school.management'
     _description = 'School'
     _inherit = ['mail.thread']
-    # _name = "product.template"
        
-    name = fields.Char(string='Name', required=True)
-    standard_division = fields.Char(string='Standard & Division')
+    name = fields.Char(string='Name')
+    standard_division = fields.Selection([
+        ('1A', '1-A'), ('1B', '1-B'), ('1C', '1-C'), ('1D', '1-D'),
+        ('2A', '2-A'), ('2B', '2-B'), ('2C', '2-C'), ('2D', '2-D'),
+        ('3A', '3-A'), ('3B', '3-B'), ('3C', '3-C'), ('3D', '3-D'),
+        ('4A', '4-A'), ('4B', '4-B'), ('4C', '4-C'), ('4D', '4-D'),
+        ('5A', '5-A'), ('5B', '5-B'), ('5C', '5-C'), ('5D', '5-D'),
+        ('6A', '6-A'), ('6B', '6-B'), ('6C', '6-C'), ('6D', '6-D'),
+        ('7A', '7-A'), ('7B', '7-B'), ('7C', '7-C'), ('7D', '7-D'),
+        ('8A', '8-A'), ('8B', '8-B'), ('8C', '8-C'), ('8D', '8-D'),
+        ('9A', '9-A'), ('9B', '9-B'), ('9C', '9-C'), ('9D', '9-D'),
+        ('10A', '10-A'), ('10B', '10-B'), ('10C', '10-C'), ('10D', '10-D'),
+        ('11', '11'), ('12', '12'),
+    ], string='Standard & Division')
     roll_number = fields.Integer(string='Roll Number')
     enrollment_number = fields.Char(string='Enrollment Number', readonly=True)
     street = fields.Char(string='Street')
@@ -19,12 +29,12 @@ class School(models.Model):
     zipcode = fields.Char(string='Zipcode')
     country_id =fields.Many2one('res.country', default=lambda self: self.env.ref('base.in'), string='country')
     state_id = fields.Many2one('res.country.state', string='State', domain = "[('country_id', '=', country_id)]")
-    phone_number = fields.Char(string='Phone Number', tracking = True, required=True)
+    phone_number = fields.Char(string='Phone Number', tracking = True)
     date_of_birth = fields.Date(string='Date of Birth')
     age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True)
     parents_ids = fields.One2many('school.management.parents', 'student_id', string='Parents')
     previous_school_ids = fields.One2many('school.management.previous.school', 'student_id', string='Previous Schools')
-    class_teacher_id = fields.Many2one('school.management.teachers', compute= '_compute_fields_from_model_b',  string='Class Teacher')
+    class_teacher_id = fields.Many2one('school.management.teachers',  string='Class Teacher')
     stream = fields.Selection(
         [('science', 'Science'), ('commerce', 'Commerce'), ('arts', 'Arts')],
         string='Stream', store=True, readonly=False)
@@ -49,25 +59,24 @@ class School(models.Model):
         ('11', 'November'),
         ('12', 'December'),
         ], string='Birth Month', compute='_compute_birth_month', store=True)   
-    
-    @api.depends('class_teacher_id.name')
-    def _compute_fields_from_model_b(self):
-        for record in self:
-            if record.class_teacher_id:
-                recordname =record.class_teacher_id = record.class_teacher_id.name
-                print(recordname)
-            else:
-                record.class_teacher_id = False
-
   
     division_id = fields.Many2one('school.management.teachers', string = 'division')
     status=fields.Selection([('active','Active'),('left-school',"Left-School")], string="Student Status")
     progress_bar = fields.Integer(compute='_compute_progress_bar', string='Progress')
-
+    extracurricular_activity_ids = fields.Many2many(
+        'extracurricular.activity', 
+        'student_activity_rel', 
+        'student_id', 
+        'activity_id', 
+        string='Extra curricular Activities'
+    )
+    
+   
     @api.depends('name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
                  'city', 'zipcode', 'country_id', 'state_id', 'phone_number', 'date_of_birth',
                  'parents_ids', 'previous_school_ids', 'class_teacher_id', 'stream', 'fee_detail',
                  'active', 'birth_month', 'division_id', 'status')
+    
     def _compute_progress_bar(self):
      
         fields_to_include = [
@@ -122,8 +131,7 @@ class School(models.Model):
     #         if 'enrollment_number' not in vals: 
     #             vals['enrollment_number'] = self.env['ir.sequence'].next_by_code('school.enrollment.sequence')
     #             return super(School, self).create(vals)
-            
-
+                
     @api.model_create_multi
     def create(self, vals_list):
         existing_enrollments = self.search([('enrollment_number', 'like', 'ENR')], order='enrollment_number desc', limit=1)
@@ -133,10 +141,11 @@ class School(models.Model):
             if 'enrollment_number' not in vals:
                 sequence += 1
                 vals['enrollment_number'] = f'ENR{sequence:04d}'
-            context = dict(self._context, skip_progress_bar_update=True)
-            return super(School, self.with_context(context)).create(vals_list)
-       
-
+        context = dict(self._context, skip_progress_bar_update=False)
+        
+        print(context)
+        return super(School, self.with_context(context)).create(vals_list)
+  
     @api.onchange('standard_division')
     def _onchange_standard_division(self):
         if self.standard_division:
@@ -185,26 +194,6 @@ class School(models.Model):
             'target':'self',
             'url':'http://localhost:8069/web#action=438&model=school.management.teachers&view_type=list&cids=1&menu_id=259'
         }
-
-    
-    @api.constrains('standard_division')
-    def _check_standard_division(self):
-        valid_values = [
-        '1A', '1B', '1C', '1D',
-        '2A', '2B', '2C', '2D',
-        '3A', '3B', '3C', '3D',
-        '4A', '4B', '4C', '4D',
-        '5A', '5B', '5C', '5D',
-        '6A', '6B', '6C', '6D',
-        '7A', '7B', '7C', '7D',
-        '8A', '8B', '8C', '8D',
-        '9A', '9B', '9C', '9D',
-        '10A', '10B', '10C', '10D'
-    ]
-
-        for record in self:                                                                                                                                                                                                                                                                                                                                                                                                                                   
-            if record.standard_division and record.standard_division not in valid_values:
-                raise ValidationError("Invalid standard division! Valid values are: {}".format(valid_values))
             
     def action_change_fee_status_paid(self):
         for rec in self:

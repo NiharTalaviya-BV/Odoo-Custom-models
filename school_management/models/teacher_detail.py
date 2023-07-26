@@ -3,7 +3,7 @@ from odoo import models, fields
 class SchoolManagementTeachers(models.Model):
     _name = 'school.management.teachers'
     _description = 'Class Teachers'
-    _rec_name = 'standard_division'
+    _rec_name = 'name'
 
     _sql_constraints = [
         ('unique_standard_division', 'unique(standard_division)', 'A class teacher already exists for this standard and division.'),
@@ -18,6 +18,20 @@ class SchoolManagementTeachers(models.Model):
 
     def assign_students(self, standard_division):
         students = self.env['school.management'].search([('standard_division', '=', standard_division)])
-        self.students = students
+        self.students = students.id
+
+    
+    def name_get(self):
+        print(self._context)
+        result = []
+        for record in self:
+            if self._context.get('is_division'): 
+                result.append((record.id, record.standard_division))
+            else:
+                name = f"{record.name} ({record.standard_division})"
+                result.append((record.id, name))
+        return result
+
+    
 
         
