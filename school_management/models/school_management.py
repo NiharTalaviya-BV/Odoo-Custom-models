@@ -147,6 +147,7 @@ class School(models.Model):
                 self.class_teacher_id = teacher.id
             else:
                 self.class_teacher_id = False
+                
             
     @api.constrains('phone_number')
     def _check_duplicate_phone_number(self):
