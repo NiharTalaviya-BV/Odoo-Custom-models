@@ -7,7 +7,6 @@ class School(models.Model):
     _name = 'school.management'
     _description = 'School'
     _inherit = ['mail.thread']
-    # _name = "product.template"
        
     name = fields.Char(string='Name')
     standard_division = fields.Selection([
