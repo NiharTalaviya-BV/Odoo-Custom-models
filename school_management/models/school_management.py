@@ -8,7 +8,7 @@ class School(models.Model):
     _description = 'School'
     _inherit = ['mail.thread']
        
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name', required=True)
     standard_division = fields.Selection([
         ('1A', '1-A'), ('1B', '1-B'), ('1C', '1-C'), ('1D', '1-D'),
         ('2A', '2-A'), ('2B', '2-B'), ('2C', '2-C'), ('2D', '2-D'),
@@ -141,11 +141,9 @@ class School(models.Model):
             if 'enrollment_number' not in vals:
                 sequence += 1
                 vals['enrollment_number'] = f'ENR{sequence:04d}'
-        context = dict(self._context, skip_progress_bar_update=False)
-        
-        print(context)
-        return super(School, self.with_context(context)).create(vals_list)
+        return super(School, self).create(vals_list)
   
+
     @api.onchange('standard_division')
     def _onchange_standard_division(self):
         if self.standard_division:
@@ -156,7 +154,28 @@ class School(models.Model):
                 self.class_teacher_id = teacher.id
             else:
                 self.class_teacher_id = False
-                
+
+
+
+    # @api.onchange('street')
+    # def _onchange_street(self):
+          
+    #     new_context_values = {
+    #         'key1': 'value1',
+    #         'key2': 'value2',
+    #     }
+    #     updated_record = self.with_context(new_context_values)
+
+    #     self = updated_record
+    #     print("vvvvvvvAAAAAAAAAAAAA", updated_record)
+
+    #     print('Updated Context:', self._context)
+    #     for record in self:
+    #         if self._context.get('key1'):
+    #             record.street="LA MIAMI"
+    #         else:
+    #             return False
+
             
     @api.constrains('phone_number')
     def _check_duplicate_phone_number(self):
@@ -237,6 +256,7 @@ class School(models.Model):
     def action_active_student(self):
         for record in self:
             record.status='active'
+            
          
     
     

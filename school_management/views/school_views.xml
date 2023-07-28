@@ -128,8 +128,8 @@
                                     <div>
                                         <group>  
                                             <field name="stream" attrs = "{'invisible':[('standard_division','not in',['11' , '12'])]}"/>
-                                            <field name="street"/>
-                                            <field name="city"/>
+                                            <field name="street" />
+                                            <field name="city" context="{'wizard': True}" />
                                             <field name="zipcode"/>
                                             <field name="state_id"/>
                                             <field name="country_id" options="{'no_create': True, 'no_create_edit':True}"/>
@@ -266,7 +266,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                records.action_change_fee_status_paid()
+                    record.action_change_fee_status_paid()
                     
             </field>
         </record>

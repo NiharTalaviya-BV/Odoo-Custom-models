@@ -25,10 +25,11 @@ class SchoolManagementTeachers(models.Model):
         print(self._context)
         result = []
         for record in self:
-            if self._context.get('is_division'): 
-                result.append((record.id, record.standard_division))
+            if self._context.get('is_division'):
+                name= record.standard_division 
+                result.append((record.id, name))
             else:
-                name = f"{record.name} ({record.standard_division})"
+                name = f"{record.name}"
                 result.append((record.id, name))
         return result
 
