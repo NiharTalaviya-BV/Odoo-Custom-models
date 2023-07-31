@@ -13,9 +13,7 @@
         'wizard/cancel_form_view.xml',
         'views/school_views.xml',
         'views/demo_data.xml',
-        'views/teacher_views.xml',
-
-        
+        'views/teacher_views.xml',    
     ],
     'images': ['static/description/icon.png'],
     'installable': True,

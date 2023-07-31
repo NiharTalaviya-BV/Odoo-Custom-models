@@ -26,7 +26,6 @@
                                         <div class="oe_kanban_card_content">
                                             <field name="class_teacher_id"/>                                 
                                         </div> 
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -65,17 +64,18 @@
             <field name="name">school.tree.view</field>
             <field name="model">school.management</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="status"/>
-                    <field name="write_date"/>
-                    <field name="create_date"/>
-                    <field name="enrollment_number"/>
-                    <field name="standard_division"/>
-                    <field name="age"/>
-                    <field name="fee_detail"/>
-                    <field name="class_teacher_id"/>
-                    <field name="date_of_birth"/>
+                <tree sample="1" multi_edit="1" decoration-success="fee_detail == 'paid'" decoration-danger="fee_detail == 'pending'">
+                    <field name="handle" widget="handle"/>
+                    <field name="name" optional='hide'/>
+                    <field name="status" optional='hide'/>
+                    <field name="write_date" optional='hide'/>
+                    <field name="create_date" optional='hide'/>
+                    <field name="enrollment_number" optional='hide'/>
+                    <field name="standard_division" optional='hide'/>
+                    <field name="age" optional='hide'/>
+                    <field name="fee_detail" optional='hide'/>
+                    <field name="class_teacher_id" optional='hide'/>
+                    <field name="date_of_birth" optional='hide'/>
                 </tree>
                 
             </field>
@@ -140,12 +140,35 @@
                                 <notebook>
                                     <!-- New Page - Parents -->
                                     <page string="Parents" name="parents">
-                                        <group>
-                                            <group>
-                                                <field name="parents_ids" nolable="1" />
-                                            </group>
-                
-                                        </group>
+                                        <field name="parents_ids"> 
+                                            <kanban>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="oe_kanban_global_click">
+                                                        <div class="oe_kanban_details">
+                                                            <ul>
+                                                                <li>
+                                                                    <h4>
+                                                                        <field name="name"/>
+                                                                    </h4>
+                                                                </li>
+                                                                <li>
+                                                                    <field name="relation"/>
+                                                                </li>
+                                                                <li>
+                                                                    <field name="phone_number"/>
+                                                                </li>
+                                                                <li>
+                                                                    <field name="email"/>
+                                                                </li>
+                                                                <li>
+                                                                    <field name="student_id"/>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </kanban>
+                                        </field>
                                     </page>
 
                                     <!-- New Page - Previous Schools -->
@@ -188,7 +211,6 @@
                     </group>
                     <field name="standard_division" string="Standard &amp; Division"/>
                     <filter name="filter_10th" string="10th Standard" domain="[('standard_division', '=', '10')]"/>
-
                 </search>
             </field>
         </record>
@@ -199,13 +221,13 @@
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form,kanban,pivot,graph</field>
             <field name="context">{'search_default_filter_10th': 1, 'search_default_group_birth_month': 1}</field>
-        </record>
+            <field name="target">current</field>
+        </record> 
 
         <record model="ir.actions.act_window" id="action_stream">
             <field name="name">Students</field>
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form</field>
-           
         </record>
 
                 <!-- Science Students Menu -->
@@ -214,6 +236,7 @@
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{'default_stream' : 'science'}</field>
+            <field name="target">current</field>
             <field name="domain">[('stream', '=', 'science')]</field>
         </record>
 
@@ -241,6 +264,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record model="ir.actions.act_window" id="action_perents_details">
+            <field name="name">perents</field>
+            <field name="res_model">school.management.parents</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <record model="ir.actions.act_window" id="action_cancel_form">
             <field name="name">Cancel Application</field>
             <field name="res_model">cancel.button.wizard</field>
@@ -255,6 +284,7 @@
         <menuitem id="menu_commerce_students" name="Commerce Students" parent="menu_streams" action="action_commerce_students"/>
         <menuitem id="menu_arts_students" name="Arts Students" parent="menu_streams" action="action_arts_students"/>
         <menuitem id="menu_teachers" name="Class Teachers" parent="menu_school_students" action="action_teacher_details"/>
+         <menuitem id="menu_perents" name="Perents" parent="menu_school_students" action="action_perents_details"/>
         <menuitem id="menu_cancel_form" name="Cancel Application" parent="menu_school_students" action="action_cancel_form"/>
 
 

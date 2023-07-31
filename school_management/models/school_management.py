@@ -70,6 +70,7 @@ class School(models.Model):
         'activity_id', 
         string='Extra curricular Activities'
     )
+    handle=fields.Integer()
     
    
     @api.depends('name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
