@@ -18,14 +18,14 @@
                                             </div>
                                         </div>
                                         <div class="oe_kanban_card_content">
-                                            <field name="roll_number"/>                                 
-                                        </div> 
-                                         <div class="oe_kanban_card_content">
-                                            <field name="standard_division"/>                                 
-                                        </div> 
+                                            <field name="roll_number"/>
+                                        </div>
                                         <div class="oe_kanban_card_content">
-                                            <field name="class_teacher_id"/>                                 
-                                        </div> 
+                                            <field name="standard_division"/>
+                                        </div>
+                                        <div class="oe_kanban_card_content">
+                                            <field name="class_teacher_id"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -58,26 +58,26 @@
                 </graph>
             </field>
         </record>
-    
-          <!-- Tree View -->
+
+        <!-- Tree View -->
         <record model="ir.ui.view" id="view_school_management_tree">
             <field name="name">school.tree.view</field>
             <field name="model">school.management</field>
             <field name="arch" type="xml">
                 <tree sample="1" multi_edit="1" decoration-success="fee_detail == 'paid'" decoration-danger="fee_detail == 'pending'">
                     <field name="handle" widget="handle"/>
-                    <field name="name" optional='hide'/>
-                    <field name="status" optional='hide'/>
-                    <field name="write_date" optional='hide'/>
-                    <field name="create_date" optional='hide'/>
-                    <field name="enrollment_number" optional='hide'/>
-                    <field name="standard_division" optional='hide'/>
-                    <field name="age" optional='hide'/>
-                    <field name="fee_detail" optional='hide'/>
-                    <field name="class_teacher_id" optional='hide'/>
-                    <field name="date_of_birth" optional='hide'/>
+                    <field name="name" optional='show'/>
+                    <field name="status" optional='show'/>
+                    <field name="write_date" optional='show'/>
+                    <field name="create_date" optional='show'/>
+                    <field name="enrollment_number" optional='show'/>
+                    <field name="standard_division" optional='show'/>
+                    <field name="age" optional='show'/>
+                    <field name="fee_detail" optional='show'/>
+                    <field name="class_teacher_id" optional='show'/>
+                    <field name="date_of_birth" optional='show'/>
                 </tree>
-                
+
             </field>
         </record>
 
@@ -92,108 +92,108 @@
                         <button name="save_all_data" string="Save" type="object" class="oe_highlight"/>
                         <button name="redirect_class_teacher" string="Class Details" type="object" class="oe_highlight"/>
                     </header>
-                        <sheet>
-                             <div class="oe_title" >
-                                <h1>
-                                    <field name="enrollment_number" readonly="1" style="font-family: sans-serif;"/>
-                                </h1>
-                            </div>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="enrollment_number" readonly="1" style="font-family: sans-serif;"/>
+                            </h1>
+                        </div>
 
-                          
-                           
-                            <div style="display: flex;">
-                                    <div style= "margin-right: 20px;">
-                                        <group>
-                                            <field name="progress_bar" widget="progressbar"/>
-                                            <field name="name"/>
-                                        
-                                            <field name="standard_division"/>                        
-                                            <field name="roll_number"/>
-                                            <field name="division_id" no_create='1' context="{'is_division':True}"/>
-                                            <field name="status"/>
-                                          
-                                        </group>
-                                    </div>
-                                    <div style="margin-right: 20px;">
-                                        <group>                      
-                                            <field name="phone_number"/>
-                                            <field name="date_of_birth"/>
-                                            <field name="age" readonly="1"/>
-                                            <field name="class_teacher_id"/>
-                                            <field name="fee_detail"/>
-                                            <field name="active"/>
-                                         
-                                        </group>
-                                    </div>
-                                    <div>
-                                        <group>  
-                                            <field name="stream" attrs = "{'invisible':[('standard_division','not in',['11' , '12'])]}"/>
-                                            <field name="street" />
-                                            <field name="city" context="{'wizard': True}" />
-                                            <field name="zipcode"/>
-                                            <field name="state_id"/>
-                                            <field name="country_id" options="{'no_create': True, 'no_create_edit':True}"/>
-                                        </group>
-                                    </div>                                           
+
+
+                        <div style="display: flex;">
+                            <div style= "margin-right: 20px;">
+                                <group>
+                                    <field name="progress_bar" widget="progressbar"/>
+                                    <field name="name"/>
+
+                                    <field name="standard_division"/>
+                                    <field name="roll_number"/>
+                                    <field name="division_id" no_create='1' context="{'is_division':True}"/>
+                                    <field name="status"/>
+
+                                </group>
+                            </div>
+                            <div style="margin-right: 20px;">
+                                <group>
+                                    <field name="phone_number"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="age" readonly="1"/>
+                                    <field name="class_teacher_id"/>
+                                    <field name="fee_detail"/>
+                                    <field name="active"/>
+
+                                </group>
                             </div>
                             <div>
-                                <notebook>
-                                    <!-- New Page - Parents -->
-                                    <page string="Parents" name="parents">
-                                        <field name="parents_ids"> 
-                                            <kanban>
-                                                <t t-name="kanban-box">
-                                                    <div t-attf-class="oe_kanban_global_click">
-                                                        <div class="oe_kanban_details">
-                                                            <ul>
-                                                                <li>
-                                                                    <h4>
-                                                                        <field name="name"/>
-                                                                    </h4>
-                                                                </li>
-                                                                <li>
-                                                                    <field name="relation"/>
-                                                                </li>
-                                                                <li>
-                                                                    <field name="phone_number"/>
-                                                                </li>
-                                                                <li>
-                                                                    <field name="email"/>
-                                                                </li>
-                                                                <li>
-                                                                    <field name="student_id"/>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </t>
-                                            </kanban>
-                                        </field>
-                                    </page>
-
-                                    <!-- New Page - Previous Schools -->
-                                    <page string="Previous Schools" name="previous_schools">
-                                        <group>
-                                            <group>
-                                                <field name="previous_school_ids" />
-                                            </group> 
-                                        </group>
-                                    </page>
-
-                                    <page string="Extra Curricular Activity" name="extracurricular_activity">
-                                        <group>
-                                            <group>
-                                                <field name="extracurricular_activity_ids"  widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                            </group> 
-                                        </group>
-                                    </page>
-                                </notebook>
+                                <group>
+                                    <field name="stream" attrs = "{'invisible':[('standard_division','not in',['11' , '12'])]}"/>
+                                    <field name="street" />
+                                    <field name="city" context="{'wizard': True}" />
+                                    <field name="zipcode"/>
+                                    <field name="state_id"/>
+                                    <field name="country_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                                </group>
                             </div>
-                        </sheet>
-                        <div class="oe_chatter">
-                            <field name="message_follower_ids"/>
-                            <field name="message_ids" options="{'post refresh': 'recipients'}"/>
                         </div>
+                        <div>
+                            <notebook>
+                                <!-- New Page - Parents -->
+                                <page string="Parents" name="parents">
+                                    <field name="parents_ids">
+                                        <kanban>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_global_click">
+                                                    <div class="oe_kanban_details">
+                                                        <ul>
+                                                            <li>
+                                                                <h4>
+                                                                    <field name="name"/>
+                                                                </h4>
+                                                            </li>
+                                                            <li>
+                                                                <field name="relation"/>
+                                                            </li>
+                                                            <li>
+                                                                <field name="phone_number"/>
+                                                            </li>
+                                                            <li>
+                                                                <field name="email"/>
+                                                            </li>
+                                                            <li>
+                                                                <field name="student_id"/>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </kanban>
+                                    </field>
+                                </page>
+
+                                <!-- New Page - Previous Schools -->
+                                <page string="Previous Schools" name="previous_schools">
+                                    <group>
+                                        <group>
+                                            <field name="previous_school_ids" />
+                                        </group>
+                                    </group>
+                                </page>
+
+                                <page string="Extra Curricular Activity" name="extracurricular_activity">
+                                    <group>
+                                        <group>
+                                            <field name="extracurricular_activity_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids" options="{'post refresh': 'recipients'}"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -214,15 +214,15 @@
                 </search>
             </field>
         </record>
-    
+
         <!-- Action -->
-        <record model="ir.actions.act_window" id="school_action"> 
+        <record model="ir.actions.act_window" id="school_action">
             <field name="name">Student</field>
             <field name="res_model">school.management</field>
             <field name="view_mode">tree,form,kanban,pivot,graph</field>
             <field name="context">{'search_default_filter_10th': 1, 'search_default_group_birth_month': 1}</field>
             <field name="target">current</field>
-        </record> 
+        </record>
 
         <record model="ir.actions.act_window" id="action_stream">
             <field name="name">Students</field>
@@ -230,7 +230,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-                <!-- Science Students Menu -->
+        <!-- Science Students Menu -->
         <record model="ir.actions.act_window" id="action_science_students">
             <field name="name">Science Students</field>
             <field name="res_model">school.management</field>
@@ -276,15 +276,23 @@
             <field name="view_mode">form</field>
         </record>
 
+        <record id="action_report_student" model="ir.actions.report">
+            <field name="name">Student Record Report</field>
+            <field name="model">school.management</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">school_management.report_student_template</field>
+        </record>
+
+
         <!-- Top-level Menu -->
         <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
         <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
-        
+
         <menuitem id="menu_science_students" name="Science Students" parent="menu_streams" action="action_science_students"/>
         <menuitem id="menu_commerce_students" name="Commerce Students" parent="menu_streams" action="action_commerce_students"/>
         <menuitem id="menu_arts_students" name="Arts Students" parent="menu_streams" action="action_arts_students"/>
         <menuitem id="menu_teachers" name="Class Teachers" parent="menu_school_students" action="action_teacher_details"/>
-         <menuitem id="menu_perents" name="Perents" parent="menu_school_students" action="action_perents_details"/>
+        <menuitem id="menu_perents" name="Perents" parent="menu_school_students" action="action_perents_details"/>
         <menuitem id="menu_cancel_form" name="Cancel Application" parent="menu_school_students" action="action_cancel_form"/>
 
 
@@ -301,10 +309,10 @@
             </field>
         </record>
 
-          <record id="action_change_fee_status_pending" model="ir.actions.server">
+        <record id="action_change_fee_status_pending" model="ir.actions.server">
             <field name="name">Status Pending</field>
             <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="model_school_management"/>  
+            <field name="model_id" ref="model_school_management"/>
             <field name="binding_model_id" ref="model_school_management"/>
             <field name="state">code</field>
             <field name="code">
@@ -313,12 +321,12 @@
                     
             </field>
         </record>
-    
+
 
         <record id="action_cancel_application" model="ir.actions.server">
             <field name="name">Cancel Application</field>
             <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="model_school_management"/>  
+            <field name="model_id" ref="model_school_management"/>
             <field name="binding_model_id" ref="model_school_management"/>
             <field name="state">code</field>
             <field name="code">
@@ -328,11 +336,11 @@
             </field>
         </record>
 
-        
+
         <record id="action_cancel_application" model="ir.actions.server">
             <field name="name">Active Student</field>
             <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="model_school_management"/>  
+            <field name="model_id" ref="model_school_management"/>
             <field name="binding_model_id" ref="model_school_management"/>
             <field name="state">code</field>
             <field name="code">
@@ -340,7 +348,7 @@
                     records.action_active_student()
                     
             </field>
-        </record>  
+        </record>
 
     </data>
 </odoo>    

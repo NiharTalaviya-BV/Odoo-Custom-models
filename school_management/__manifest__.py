@@ -14,6 +14,8 @@
         'views/school_views.xml',
         'views/demo_data.xml',
         'views/teacher_views.xml',    
+        'views/report_student_template.xml',
+
     ],
     'images': ['static/description/icon.png'],
     'installable': True,

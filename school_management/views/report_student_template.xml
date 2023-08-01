@@ -1,0 +1,14 @@
+<odoo>
+    <template id="report_student_template">
+        <t t-call="web.html_container">
+       
+            <t t-foreach="docs" t-as="student">
+                <div>
+                    <h1>Student Name: <t t-esc="student.name"/></h1>
+                    <p>Age: <t t-esc="student.age"/></p>
+               
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

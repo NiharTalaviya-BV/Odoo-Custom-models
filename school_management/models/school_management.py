@@ -228,7 +228,7 @@ class School(models.Model):
     def name_get(self):
         student_list = []
         record_ids = self.env['school.management'].search([]).ids
-        print("Record ids:",record_ids)
+        # print("Record ids:",record_ids)
         for record in self:
             student_name = str(record.name) + " " + str(record.enrollment_number)
             student_list.append((record.id, student_name.upper()))
@@ -245,6 +245,7 @@ class School(models.Model):
         if 'date_of_birth' in values:
             record_id = [12]
             res = self.env['school.management'].browse(record_id)
+            # print('AAAAAAAAAAAAAAAAA',res)
             res.name='Niharrrrr'
             res.phone_number=9632587410
         return super(School,self).write(values)
@@ -257,6 +258,12 @@ class School(models.Model):
     def action_active_student(self):
         for record in self:
             record.status='active'
+
+    # def generate_student_report(self, student_id):
+    #     student = self.env['school.management'].browse(student_id)
+    #     report = self.env.ref('school_management.action_report_student')
+    #     return report.report_action(student)
+
             
          
     
