@@ -67,7 +67,7 @@
                 <tree sample="1" multi_edit="1" decoration-success="fee_detail == 'paid'" decoration-danger="fee_detail == 'pending'">
                     <field name="handle" widget="handle"/>
                     <field name="name" optional='show'/>
-                    <field name="status" optional='show'/>
+                    <field name="student_info" optional='show'/>
                     <field name="write_date" optional='show'/>
                     <field name="create_date" optional='show'/>
                     <field name="enrollment_number" optional='show'/>
@@ -91,6 +91,8 @@
                     <header>
                         <button name="save_all_data" string="Save" type="object" class="oe_highlight"/>
                         <button name="redirect_class_teacher" string="Class Details" type="object" class="oe_highlight"/>
+                        <button name="action_send_mail" string="Send Mail" type="object" class="oe_highlight"/>
+                        <button name="action_print_excel_report" string="Print Xls File" type="object" class="oe_highlight"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -110,7 +112,9 @@
                                     <field name="standard_division"/>
                                     <field name="roll_number"/>
                                     <field name="division_id" no_create='1' context="{'is_division':True}"/>
-                                    <field name="status"/>
+                                    <field name="student_info"/>
+                                    <field name="email"/>
+
 
                                 </group>
                             </div>
@@ -224,12 +228,6 @@
             <field name="target">current</field>
         </record>
 
-        <record model="ir.actions.act_window" id="action_stream">
-            <field name="name">Students</field>
-            <field name="res_model">school.management</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
         <!-- Science Students Menu -->
         <record model="ir.actions.act_window" id="action_science_students">
             <field name="name">Science Students</field>
@@ -279,21 +277,43 @@
         <record id="action_report_student" model="ir.actions.report">
             <field name="name">Student Record Report</field>
             <field name="model">school.management</field>
-            <field name="report_type">qweb-pdf</field>
+            <field name="report_type">qweb-html</field>
             <field name="report_name">school_management.report_student_template</field>
         </record>
+
+        <record id="action_send_congratulations_email" model="ir.actions.server">
+            <field name="name">Send Congratulations Email Action</field>
+            <field name="model_id" ref="model_school_management"/>
+            <field name="state">code</field>
+            <field name="code">
+        self.send_congratulations_email()
+            </field>
+        </record>
+
+        <record id="action_report_student" model="ir.actions.report">
+            <field name="name">Student Record Report</field>
+            <field name="model">school.management</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">school_management.report_student_detail_xls</field>
+            <field name="report_name">school_management.report_student_detail_xls</field>
+            <field name="binding_type">report</field>
+        </record>
+
+     
 
 
         <!-- Top-level Menu -->
         <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
-        <menuitem id="menu_streams" name="Streams" parent="menu_school_students" action="action_stream"/>
+        <menuitem id="menu_streams" name="Streams" parent="menu_school_students" />
 
         <menuitem id="menu_science_students" name="Science Students" parent="menu_streams" action="action_science_students"/>
         <menuitem id="menu_commerce_students" name="Commerce Students" parent="menu_streams" action="action_commerce_students"/>
         <menuitem id="menu_arts_students" name="Arts Students" parent="menu_streams" action="action_arts_students"/>
         <menuitem id="menu_teachers" name="Class Teachers" parent="menu_school_students" action="action_teacher_details"/>
-        <menuitem id="menu_perents" name="Perents" parent="menu_school_students" action="action_perents_details"/>
         <menuitem id="menu_cancel_form" name="Cancel Application" parent="menu_school_students" action="action_cancel_form"/>
+        <menuitem id="menu_perents" name="Perents" parent="menu_school_students" action="action_perents_details"/>
+        <menuitem id="menu_configurations" name="Configuration" parent="menu_school_students"/>
+    
 
 
         <record id="action_change_fee_status_paid" model="ir.actions.server">

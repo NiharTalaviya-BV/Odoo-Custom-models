@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="ir_cron_scheduler_recurring_action" model="ir.cron">
+            <field name="name">Send Student Emails</field>
+            <field name="model_id" ref="model_school_management"/>
+            <field name="state">code</field>
+            <field name="code">model.action_send_mail_to_all()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">12</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,62 @@
+<odoo>
+    <template id="report_student_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="student">
+                    <div class="page">
+                        <div class="header">
+                            <!-- Add header content here -->
+                            <h1>Student Report</h1>
+                        </div>
+                        <div class="content">
+                            <!-- Student Information -->
+                            <div class="student-info">
+                                <h2>
+                                    <span class="enrollment-number">
+                                        <t t-esc="student.enrollment_number"/>
+                                    </span>
+                                </h2>
+                                <h4>
+                                    <t t-esc="student.name"/>
+                                </h4>
+                                <br></br>
+                                <p>Age: <t t-esc="student.age"/>
+                                </p>
+                                <p>Class Teacher: <t t-esc="student.class_teacher_id.name"/>
+                                </p>
+                                
+                            </div>
+                            <br></br>
+                            <!-- Fee Details -->
+                            <div class="fee-details">
+                                <h3>Fee Details</h3>
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Student Status</th>
+                                            <th>Fee Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="student.student_info"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="student.fee_detail"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="footer">
+                           
+                            <p>Thank you.</p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -30,6 +30,7 @@ class School(models.Model):
     country_id =fields.Many2one('res.country', default=lambda self: self.env.ref('base.in'), string='country')
     state_id = fields.Many2one('res.country.state', string='State', domain = "[('country_id', '=', country_id)]")
     phone_number = fields.Char(string='Phone Number', tracking = True)
+    email = fields.Char(string='Email')
     date_of_birth = fields.Date(string='Date of Birth')
     age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True)
     parents_ids = fields.One2many('school.management.parents', 'student_id', string='Parents')
@@ -61,7 +62,7 @@ class School(models.Model):
         ], string='Birth Month', compute='_compute_birth_month', store=True)   
   
     division_id = fields.Many2one('school.management.teachers', string = 'division')
-    status=fields.Selection([('active','Active'),('left-school',"Left-School")], string="Student Status")
+    student_info=fields.Selection([('active','Active'),('left-school',"Left-School")], string="Student Status")
     progress_bar = fields.Integer(compute='_compute_progress_bar', string='Progress')
     extracurricular_activity_ids = fields.Many2many(
         'extracurricular.activity', 
@@ -76,7 +77,7 @@ class School(models.Model):
     @api.depends('name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
                  'city', 'zipcode', 'country_id', 'state_id', 'phone_number', 'date_of_birth',
                  'parents_ids', 'previous_school_ids', 'class_teacher_id', 'stream', 'fee_detail',
-                 'active', 'birth_month', 'division_id', 'status')
+                 'active', 'birth_month', 'division_id', 'student_info')
     
     def _compute_progress_bar(self):
      
@@ -84,7 +85,7 @@ class School(models.Model):
             'name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
             'city', 'zipcode', 'country_id', 'state_id', 'phone_number', 'date_of_birth',
             'parents_ids', 'previous_school_ids', 'class_teacher_id', 'stream', 'fee_detail',
-            'active', 'birth_month', 'division_id', 'status'
+            'active', 'birth_month', 'division_id', 'student_info'
         ]
         total_fields = len(fields_to_include)
         filled_fields = 0
@@ -103,7 +104,17 @@ class School(models.Model):
             else:
                 record.progress_bar = 0
 
-    
+    @api.constrains('email', 'student_info')
+    def send_congratulations_email(self):
+        template = self.env.ref('school_management.email_template_student_report')
+        
+        for student in self:
+            if student.email and student.student_info == 'active':
+                try:
+                    template.send_mail(student.id, force_send=True)
+                except exceptions.UserError as e:
+                    pass
+
     @api.depends('date_of_birth') 
     def _compute_birth_month(self): 
         for student in self: 
@@ -124,6 +135,14 @@ class School(models.Model):
                     raise ValidationError("Age cannot be less than 4 years.")
             else:
                 record.age = 0
+
+    def action_print_excel_report(self):
+        students = self.env['school.management'].search([])
+        data= {
+            'students': students,
+            'form_data': self.read()[0]
+        }
+        return self.env.ref('school_management.action_report_student').report_action(self,data=data)
 
 
     # @api.model_create_multi
@@ -259,6 +278,21 @@ class School(models.Model):
         for record in self:
             record.status='active'
 
+    def action_send_mail(self):
+        template_id=self.env.ref('school_management.email_template_student_report').id
+        template=self.env['mail.template'].browse(template_id)
+        template.send_mail(self.id, force_send=True)
+    
+
+    @api.model
+    def action_send_mail_to_all(self):
+        template_id = self.env.ref('school_management.email_template_student_report').id
+        template = self.env['mail.template'].browse(template_id)
+
+        students_with_email = self.search([('email', '!=', False)])
+        
+        for student in students_with_email:
+            template.send_mail(student.id, force_send=True)
     # def generate_student_report(self, student_id):
     #     student = self.env['school.management'].browse(student_id)
     #     report = self.env.ref('school_management.action_report_student')

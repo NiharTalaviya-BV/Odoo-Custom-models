@@ -3,3 +3,4 @@ from . import teacher_detail
 from . import parents_detail
 from . import previous_school_detail
 from . import curricular_activity
+from . import res_config_settings

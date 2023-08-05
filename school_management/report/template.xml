@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="my_custom_report_student_template" inherit_id="school_management.report_student_template">
+            <xpath expr="//thead/tr" position="replace">
+                <tr>
+                    <th>Student Confirmation</th>
+                    <th>Fee Status</th>
+                </tr>
+            </xpath>
+            <xpath expr="//tbody/tr" position="replace">
+                <tr>
+                    <td>
+                        <t t-esc="student.student_info"/>
+                    </td>
+                    <td>
+                        <t t-esc="student.fee_detail"/>
+                    </td>
+                </tr>
+            </xpath>
+        </template>
+    </data>
+</odoo>
