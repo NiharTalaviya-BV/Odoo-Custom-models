@@ -11,8 +11,7 @@ class StudentXLSXReport(models.AbstractModel):
 
     @api.model
     def _get_report_data(self):
-        # Implement your data retrieval logic here to get the list of students
-        students = self.env['school.management'].search([])  # Replace 'school.management' with your model name
+        students = self.env['school.management'].search([]) 
         return students
 
     def generate_xlsx_report(self, workbook, data, objs):
@@ -20,7 +19,6 @@ class StudentXLSXReport(models.AbstractModel):
         worksheet = workbook.add_worksheet('students')
         header_format = workbook.add_format({'bold': True, 'bg_color': 'yellow'})
 
-        # Add headers with yellow background
         headers = ['Name', 'Enrollment Number', 'Phone Number']
         for col, header in enumerate(headers):
             worksheet.write(0, col, header, header_format)

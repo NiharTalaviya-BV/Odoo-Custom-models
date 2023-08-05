@@ -5,11 +5,11 @@
                 <t t-foreach="docs" t-as="student">
                     <div class="page">
                         <div class="header">
-                            <!-- Add header content here -->
+                   
                             <h1>Student Report</h1>
                         </div>
                         <div class="content">
-                            <!-- Student Information -->
+                   
                             <div class="student-info">
                                 <h2>
                                     <span class="enrollment-number">
@@ -27,7 +27,7 @@
                                 
                             </div>
                             <br></br>
-                            <!-- Fee Details -->
+                    
                             <div class="fee-details">
                                 <h3>Fee Details</h3>
                                 <table class="table table-condensed">
