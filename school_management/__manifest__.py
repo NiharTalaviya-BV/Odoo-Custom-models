@@ -18,7 +18,7 @@
         'views/teacher_views.xml',    
         'views/res_config_settings_view.xml',
         'report/report_student_template.xml',
-        'report/template.xml',
+        'report/inherit_template.xml',
     ],
     'images': ['static/description/icon.png'],
     'installable': True,
