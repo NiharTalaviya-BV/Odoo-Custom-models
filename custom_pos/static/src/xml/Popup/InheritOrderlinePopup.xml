@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="Override" t-inherit="point_of_sale.CashMovePopup" t-inherit-mode="extension" owl="1">
+        <xpath expr="//span[contains(text(), 'Cash In')]" position="replace">
+            <span t-on-click="() => this.onClickButton('in')" class="input-type" t-att-class="{ highlight: state.inputType == 'in' }">
+                Cash Dalo 
+            </span>
+        </xpath>
+        <xpath expr="//span[contains(text(), 'Cash Out')]" position="replace">
+            <span t-on-click="() => this.onClickButton('out')" class="input-type" t-att-class="{ 'red-highlight': state.inputType == 'out' }">
+                Cash Nikalo
+            </span>
+        </xpath>
+        
+    </t>
+</templates>

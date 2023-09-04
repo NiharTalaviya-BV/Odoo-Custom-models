@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="school_student_form_view">
+            <field name="name">custom.pos.form</field>
+            <field name="model">custom.pos</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div style="display: flex;">
+                            <div style= "margin-right: 20px;">
+                                <group>
+                                    <field name="name"/>
+                                </group>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="custom_pos_action">
+            <field name="name">Custom_Pos</field>
+            <field name="res_model">custom.pos</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_custom_pos" name="Custom_Pos" />
+        <menuitem id="menu_streams" name="Streams" parent="menu_custom_pos" action="custom_pos_action" />
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CustomTicketScreen" t-inherit="point_of_sale.TicketScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[contains(@class, 'col narrow')]" position="after">
+            <div class="col">Order Note</div>
+        </xpath>
+
+       <xpath expr="//div[contains(@class, 'order-row')]/div[@class='col narrow']" position="after">
+            <div class="col num">
+                <div> <t t-esc="customer_note.note"></t></div>
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="customerNoteButton" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension" owl="1">
+            <xpath expr="//div[hasclass('control-buttons')]" position="inside">
+                <div class="control-button" t-on-click='onClick'>
+                    <i class="fa fa-sticky-note"></i>
+                    <span> </span>
+                    <span>Order Note</span>
+                </div>
+            </xpath>
+        </t>
+          
+    </t>
+</templates>
+    

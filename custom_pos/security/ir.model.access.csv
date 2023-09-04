@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+custom_pos.access_custom_pos,access_custom_pos,custom_pos.model_custom_pos,,1,1,1,1
+access_pos_order,pos.order,model_pos_order,,1,1,1,1
+access_pos_session_user,pos.session user,model_custom_pos,,1,1,1,1
+access_res_partner_group_account_manager,res_partner group_account_manager,model_res_partner,,1,1,1,1

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="custom_pos.customerNotePopup" owl="1">
+        <div class="popup cash-move-popup">
+            <main class="body">
+                <div class="cash-move">
+                    <div class="input-amount">
+                        <span>Phone Number: </span>
+                        <input t-model="state.inputValue" t-ref="customerNote" type="textarea"/>
+                    </div>
+                </div>
+            </main>
+            <footer class="footer cash-move">
+                <div class="button confirm disable highlight dynamic-size" t-on-click="confirm">
+                    <t t-esc="props.confirmText"/>
+                </div>
+                <div class="button cancel" t-on-click="cancel">
+                    <t t-esc="props.cancelText"/>
+                </div>
+            </footer>
+        </div>
+    </t>
+    
+  
+</templates>
