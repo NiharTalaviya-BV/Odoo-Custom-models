@@ -6,7 +6,7 @@
                 <div style="font-weight:bold;">Order Note:
                     <t t-esc='receipt.customerNote'/>
                 </div>
-                <div style="font-weight:bold;">Customer Alt-Phone:
+                <div style="font-weight:bold;">Alt-Phone:
                     <t t-esc='receipt.alternate_phone_num'/>
                 </div>
             

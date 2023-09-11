@@ -32,7 +32,7 @@ class School(models.Model):
     phone_number = fields.Char(string='Phone Number', tracking = True)
     email = fields.Char(string='Email')
     date_of_birth = fields.Date(string='Date of Birth')
-    age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True)
+    age = fields.Integer(string='Age', compute='_compute_age', store=False, readonly=True)
     parents_ids = fields.One2many('school.management.parents', 'student_id', string='Parents')
     previous_school_ids = fields.One2many('school.management.previous.school', 'student_id', string='Previous Schools')
     class_teacher_id = fields.Many2one('school.management.teachers',  string='Class Teacher')
@@ -72,6 +72,9 @@ class School(models.Model):
         string='Extra curricular Activities'
     )
     handle=fields.Integer()
+    xls_report = fields.Binary('XLSX Report')
+    xls_report_name = fields.Char('Report Name')
+
     
    
     @api.depends('name', 'standard_division', 'roll_number', 'enrollment_number', 'street',
@@ -115,6 +118,7 @@ class School(models.Model):
                 except exceptions.UserError as e:
                     pass
 
+    
     @api.depends('date_of_birth') 
     def _compute_birth_month(self): 
         for student in self: 
@@ -122,7 +126,7 @@ class School(models.Model):
                 student.birth_month = student.date_of_birth.strftime('%m') 
             else: 
                 student.birth_month = False
-
+                 
     @api.depends('date_of_birth')
     def _compute_age(self):
         for record in self:
@@ -135,15 +139,14 @@ class School(models.Model):
                     raise ValidationError("Age cannot be less than 4 years.")
             else:
                 record.age = 0
+        
 
     def action_print_excel_report(self):
-        students = self.env['school.management'].search([])
-        data= {
-            'students': students,
-            'form_data': self.read()[0]
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{self._name}/{self.id}/xls_report',
+            'target': 'new',
         }
-        return self.env.ref('school_management.action_report_student').report_action(self,data=data)
-
 
     # @api.model_create_multi
     # def create(self, vals_list):

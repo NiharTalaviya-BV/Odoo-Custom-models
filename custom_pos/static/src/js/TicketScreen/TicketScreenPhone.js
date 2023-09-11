@@ -9,7 +9,8 @@ odoo.define('custom_pos.Ticket', function(require) {
     class CustomTicketScreen extends TicketScreen {
         setup() {
             super.setup();
-            const customer_note = this.env.pos.get_order().get_customer_order_note();
+            console.log(this.env.pos.get_order())
+            const customer_note = this.env.pos.get_order().customerNote;
             this.customer_note = useState({'note': customer_note})
             console.log(this.env.pos.get_order().get_customer_order_note());
         }

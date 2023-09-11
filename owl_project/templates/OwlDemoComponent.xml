@@ -1,0 +1,7 @@
+<template id="OwlDemoComponent" owl="1">
+    <div t-name="OwlDemoComponent">
+        <h2>Owl Demo Component</h2>
+        <p>Value of n: <t t-esc="state.n"/></p>
+        <button t-on-click="increment">Increment</button>
+    </div>
+</template>

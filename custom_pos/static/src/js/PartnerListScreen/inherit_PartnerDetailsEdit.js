@@ -9,7 +9,7 @@ odoo.define('custom_pos.PartnerDetailsEditInherit', function(require) {
 
         setup() {
             super.setup();
-            console.log(this.props.partner)
+            console.log(this.env.pos.get_order())
             this.changes.alternate_phone_num = this.props.partner.alternate_phone_num || '';
         }
         async saveChanges() {

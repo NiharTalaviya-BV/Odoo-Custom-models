@@ -16,10 +16,19 @@
         'views/school_views.xml',
         'views/demo_data.xml',
         'views/teacher_views.xml',    
+        'views/component_view.xml',
         'views/res_config_settings_view.xml',
+
         'report/report_student_template.xml',
         'report/inherit_template.xml',
     ],
+
+    
+   'assets': {
+      'web.assets_backend': ['school_management/static/src/components/Component.js',
+                             'school_management/static/src/components/Component.xml'],
+   },
+  
     'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,

@@ -1,16 +1,8 @@
 from odoo import models, fields
 
 class Custom_Pos(models.Model):
-    _name =  'custom.pos'
+    _name =  'store.location'
     _description = 'Custom Pos Model'
+    _rec_name = 'location_name'
 
-    name = fields.Char(string='Name')
-    phone_number = fields.Char(string='Phone Number')
-
-    
-
-
-
-
-       
-    
+    location_name = fields.Char(string='Location Name')

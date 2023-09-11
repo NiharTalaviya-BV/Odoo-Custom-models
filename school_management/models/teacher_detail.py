@@ -15,7 +15,6 @@ class SchoolManagementTeachers(models.Model):
     country_id = fields.Many2one('res.country', string='Country')
 
 
-
     def assign_students(self, standard_division):
         students = self.env['school.management'].search([('standard_division', '=', standard_division)])
         self.students = students.id

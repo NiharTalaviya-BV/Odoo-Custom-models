@@ -24,7 +24,6 @@
                                 </p>
                                 <p>Class Teacher: <t t-esc="student.class_teacher_id.name"/>
                                 </p>
-                                
                             </div>
                             <br></br>
                     
@@ -59,4 +58,10 @@
             </t>
         </t>
     </template>
+    <record id="action_report_student" model="ir.actions.report">
+        <field name="name">Student Record Report</field>
+        <field name="model">school.management</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">school_management.report_student_template</field>
+    </record>
 </odoo>

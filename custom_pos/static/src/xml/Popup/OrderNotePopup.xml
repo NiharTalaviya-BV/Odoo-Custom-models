@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="custom_pos.customerNotePopup" owl="1">
-        <div class="popup cash-move-popup">
+        <div class="popup order-note popup">
             <main class="body">
-                <div class="cash-move">
+                <div class="order-note">
+                    <header>
+                        <span>Add Order Note </span>
+                    </header>
+                    <hr> </hr>
                     <div class="input-amount">
-                        <span>Phone Number: </span>
+                
                         <input t-model="state.inputValue" t-ref="customerNote" type="textarea"/>
                     </div>
                 </div>

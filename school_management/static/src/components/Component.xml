@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="Parent" owl='1'>
+        <div> 
+            <select t-model="state.form_render">
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="form">Form</option>
+                <option value="root">Root</option>
+            </select>
+            <hr></hr>
+        </div>
+        <t t-component="myComponent"/>
+    </t>
+
+
+
+    <t t-name="school_management.A" owl='1'>
+        <div id="school_management">Hello Everyone</div>
+    </t>
+
+
+
+     <div t-name="Form" owl='1'>
+    <h1>Form</h1>
+    <div>
+      Text (immediate): <input t-model="state.text"/>
+    </div>
+    <div>
+      Other text (lazy): <input t-model.lazy="state.othertext"/>
+    </div>
+    <div>
+      Number: <input  t-model.number="state.number"/>
+    </div>
+    <div>
+      Boolean: <input  type="checkbox" t-model="state.bool"/>
+    </div>
+    <div>
+      Color, with a select:
+      <select  t-model="state.color">
+        <option value="">Select a color</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+      </select>
+    </div>
+    <div>
+      Color, with radio buttons:
+        <span><input type="radio" name="color" id="red" value="red" t-model="state.color"/><label for="red">Red</label></span>
+        <span><input type="radio" name="color" id="blue" value="blue" t-model="state.color"/><label for="blue">Blue</label></span>
+    </div>
+    <hr/>
+    <h1>State</h1>
+    <div>Text: <t t-esc="state.text"/></div>
+    <div>Other Text: <t t-esc="state.othertext"/></div>
+    <div>Number: <t t-esc="state.number"/></div>
+    <div>Boolean: <t t-if="state.bool">True</t><t t-else="">False</t></div>
+    <div>Color: <t t-esc="state.color"/></div>
+  </div>
+
+
+
+
+    <t t-name="Tasks" owl='1'>
+        <li t-attf-style="background-color: #{props.task.color}" class="d-flex align-items-center 
+                justify-content-between border p-3 mb-2 rounded">
+                <div class="form-check form-switch fs-5">
+                    <input class="form-check-input" type="checkbox" value="" t-att-id="props.task.id"/>
+                    <label class="form-check-label" t-att-for="props.task.id">
+                        <t t-esc="props.task.name"/>
+                    </label>
+                </div>
+                <div>
+                <button class="btn btn-primary me-2"><i class="bi bi-pencil fs-3"></i></button>
+                    <button class="btn btn-danger"><i class="bi bi-trash fs-3"></i></button> 
+                </div>
+        </li>
+    </t>
+
+
+
+
+    <t t-name="Root" owl='1'>
+        <div>
+          <h2  class="">To-Do List</h2>
+          <div class="input-group-lg w-100 d-flex border rounded align-items-center">
+                <input type="text" class="form-control-lg flex-fill border=0" placeholder="Add Your New Task" 
+                aria-label="Add Your New Task" aria-describedby="button-addon2" t-att-value="state.name"
+                t-model="state.name"/>
+                <input type="color" class="form-control-lg form-control-color border=0 bg-white m-0" 
+                id="color" t-att-value="state.color" title="Choose your color" t-model="state.color"/>
+                <button class="btn btn-primary" type="button" id="button-addon2" t-on-click="addTask"><i class="bi bi-plus-lg"></i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                  </svg>
+                </button>
+            </div>
+        </div>
+
+        <ul class="d-flex flex-column mt-5 p-0">
+            <t t-foreach="tasks" t-as="task" t-key="task.id">
+                <li t-attf-style="background-color: #{task.color}" class="d-flex align-items-center 
+                justify-content-between border p-3 mb-2 rounded">
+                    <div class="form-check form-switch fs-5">
+                        <input class="form-check-input" type="checkbox" value="" t-att-id="task.id"/>
+                        <label class="form-check-label" t-att-for="task.id">
+                            <t t-esc="task.name"/>
+                        </label>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary me-2"><i class="bi bi-pencil fs-3"></i></button>
+                        <button class="btn btn-danger"><i class="bi bi-trash fs-3"></i></button> 
+                    </div>
+                </li>
+            </t>
+        </ul>
+        
+    </t>
+
+</templates>

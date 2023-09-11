@@ -12,7 +12,9 @@ odoo.define('custom_pos.customerNotePopup', function (require) {
          * @param {string} props.startingValue
          */
         setup() {
+            
             super.setup();
+           
             this.state =  useState({ inputValue: this.props.startingValue });
             this.customerNote = useRef('customerNote');
             

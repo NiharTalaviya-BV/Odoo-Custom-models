@@ -219,6 +219,7 @@
             </field>
         </record>
 
+
         <!-- Action -->
         <record model="ir.actions.act_window" id="school_action">
             <field name="name">Student</field>
@@ -274,12 +275,7 @@
             <field name="view_mode">form</field>
         </record>
 
-        <record id="action_report_student" model="ir.actions.report">
-            <field name="name">Student Record Report</field>
-            <field name="model">school.management</field>
-            <field name="report_type">qweb-html</field>
-            <field name="report_name">school_management.report_student_template</field>
-        </record>
+        
 
         <record id="action_send_congratulations_email" model="ir.actions.server">
             <field name="name">Send Congratulations Email Action</field>
@@ -290,17 +286,19 @@
             </field>
         </record>
 
-        <record id="action_report_student" model="ir.actions.report">
-            <field name="name">Student Record Report</field>
+        <record id="action_print_xlsx_report" model="ir.actions.report">
+            <field name="name">Xlsx Report</field>
             <field name="model">school.management</field>
             <field name="report_type">xlsx</field>
             <field name="report_name">school_management.report_student_detail_xls</field>
-            <field name="report_name">school_management.report_student_detail_xls</field>
+            <field name="report_file">school_management.report_student_detail_xls</field>
             <field name="binding_type">report</field>
         </record>
 
-     
-
+        <record id="action_component" model="ir.actions.client">
+            <field name="name">School Management</field>
+            <field name="tag">ClientAction</field>
+        </record>
 
         <!-- Top-level Menu -->
         <menuitem id="menu_school_students" name="School" sequence="10" action="school_action"/>
@@ -357,7 +355,7 @@
         </record>
 
 
-        <record id="action_cancel_application" model="ir.actions.server">
+        <record id="action_cancel_application_two" model="ir.actions.server">
             <field name="name">Active Student</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_school_management"/>

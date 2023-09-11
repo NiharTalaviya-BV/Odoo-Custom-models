@@ -30,9 +30,13 @@ odoo.define('point_of_sale.ExtendedOrder', function(require) {
             return this.customerNote;
         }
 
-        get_phone_num(){
-            let phone_num = this.customerNote;
-            return phone_num ? this.customerNote : "";
+
+        export_for_printing(){
+        
+            var result = super.export_for_printing(...arguments);
+            result.customerNote = this.get_customer_order_note();
+            result.alternate_phone_num = this.partner.alternate_phone_num;
+            return result
         }
 
        

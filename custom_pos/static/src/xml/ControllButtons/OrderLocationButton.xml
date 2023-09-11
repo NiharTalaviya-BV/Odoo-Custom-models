@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="product_extend_template_id" xml:space="preserve">
+	<t t-name="LocationOption" owl="1">
+		<div class="control-button">
+			<i class="fa fa-thumb-tack"></i>
+			<span t-if="selected_loc">
+				<t t-esc="selected_loc" />
+			</span>
+			<span t-else="">
+				Location Here
+			</span>
+		</div>
+	</t>
+</templates>
