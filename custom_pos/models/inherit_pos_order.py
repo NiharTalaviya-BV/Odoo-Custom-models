@@ -18,6 +18,7 @@ class InheritPos(models.Model):
         })
         return order_vals
     
+    
     @api.model
     def _order_fields(self, ui_order):
         # process_line = partial(self.env['pos.order.line']._order_line_fields, session_id=ui_order['pos_session_id'])
