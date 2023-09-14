@@ -1,0 +1,31 @@
+.font-weight-medium {
+    font-weight:500;
+}
+
+.footer-logo {
+    height:50px;
+    width:auto;
+}
+
+.explore-employees{
+    .img-container {
+        height:110px;
+        width:110px;
+        flex-shrink: 0;
+    }
+
+    .employee-img-container{
+        object-fit:cover;
+        height:100%;
+        width:100%;
+        padding-right: 5px;
+    }
+}
+
+.object-fit {
+    object-fit:cover;
+    height:100%;
+    width:100%;
+}
+
+

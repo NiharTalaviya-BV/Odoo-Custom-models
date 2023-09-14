@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="yh_Employees_form_view" model="ir.ui.view">
+            <field name="name">yh.employees.form.view</field>
+            <field name="model">yh.employees</field>
+            <field name="arch" type="xml">
+                <form string="Empoyees">
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <group>
+                            <field name="employee_name"/>
+                            <field name="phone_number"/>
+                            <field name="experience"/>
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="yh_Employees_tree_view" model="ir.ui.view">
+            <field name="name">yh.employees.tree.view</field>
+            <field name="model">yh.employees</field>
+            <field name="arch" type="xml">
+                <tree string="Employees">
+                    <field name="employee_name"/>
+                    <field name="phone_number"/>
+                    <field name="experience"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="yh_Employees_action" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">yh.employees</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No Employees yet!
+              </p><p>
+                Please add a new Employee!
+              </p>
+            </field>
+        </record>
+
+        <!-- Root Menu -->
+        <menuitem id="yh_root_menu"
+        name="Your Home"
+        sequence="85"
+        parent="website.menu_website_configuration"/>
+
+        <!-- Employees Submenu -->
+        <menuitem id="yh_Employees_menu"
+        name="Employees"
+        sequence="1"
+        parent="yh_root_menu"
+        action="your_company.yh_Employees_action"/>
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="explore_employees" name="Explore Employees - Dynamic">
+        <section class="explore-employees">
+            <div class="container">
+                <div class="text-center py-5">
+                    <h2 class="h1">Explore Employees</h2>
+                    <p> Meet our vastly experienced and versatile employees. <br/></p>
+                </div>
+
+      
+                <div class="row justify-content-center" id="yh-employees-row"/>
+            </div>
+        </section>
+    </template>
+
+
+    <template id="explore_employees_options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='Box']" position="before">
+            <div data-js="ExploreEmployeesOptions" data-selector=".explore-employees" data-drop-in=".o_mega_menu nav">
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="compony_leaders" name="Compony Leaders">
+        <section class="compony-leaders border-none company-visible">
+            <div class="container">
+                <div class="text-center py-5">
+                    <h2 class="h1">Compony Leaders</h2>
+                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for <br/>previewing layouts and visual mockups.</p>
+                </div>
+
+                <div class="row pb-5">
+                    <div class="col text-center">
+                        <div class="leader-img-container rounded-circle mx-auto">
+                            <img class="object-fit rounded" src="/your_company/static/src/img/employee1.png"/>
+                        </div>
+                        <h5 class="mb-0 mt-3">Leader Name</h5>
+                        <div class="company-name">Company name</div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="leader-img-container rounded-circle mx-auto">
+                            <img class="object-fit rounded" src="/your_company/static/src/img/employee2.png"/>
+                        </div>
+                        <h5 class="mb-0 mt-3">Leader Name</h5>
+                        <div class="company-name">Company name</div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="leader-img-container rounded-circle mx-auto">
+                            <img class="object-fit rounded" src="/your_company/static/src/img/employee3.png"/>
+                        </div>
+                        <h5 class="mb-0 mt-3">Leader Name</h5>
+                        <div class="company-name">Company name</div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="leader-img-container rounded-circle mx-auto">
+                            <img class="object-fit rounded" src="/your_company/static/src/img/employee4.png"/>
+                        </div>
+                        <h5 class="mb-0 mt-3">Leader Name</h5>
+                        <div class="company-name">Company name</div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="leader-img-container rounded-circle mx-auto">
+                            <img class="object-fit rounded" src="/your_company/static/src/img/employee5.png"/>
+                        </div>
+                        <h5 class="mb-0 mt-3">Leader Name</h5>
+                        <div class="company-name">Company name</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
