@@ -17,22 +17,5 @@
         </xpath>
     </template>
 
-    <template id="company_leaders_options" inherit_id="website.snippet_options" name="Company Leaders">
-        <xpath expr="//div[@data-js='Box']" position="after">
-            <div data-selector=".compony-leaders">
-                <we-select string="Image Border">
-                    <we-button data-select-class="border-none">None</we-button>
-                    <we-button data-select-class="border-small">Small</we-button>
-                    <we-button data-select-class="border-medium">Medium</we-button>
-                    <we-button data-select-class="border-large">Large</we-button>
-                    <we-button data-select-class="border-extra-large">Extra Large</we-button>
-                </we-select>
-                <we-select string="Company Name">
-                    <we-button data-select-class="company-visible">Visible</we-button>
-                    <we-button data-select-class="company-hidden">Hidden</we-button>
-                </we-select>
-            </div>
-        </xpath>
-
-    </template>
+   
 </odoo>

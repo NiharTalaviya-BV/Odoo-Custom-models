@@ -173,31 +173,13 @@ class School(models.Model):
             teacher = self.env['school.management.teachers'].search([
                 ('standard_division', '=', self.standard_division)
             ], limit=1)
+            print("VVVVVVVVVVVVV",teacher.id)
             if teacher:
                 self.class_teacher_id = teacher.id
+                
             else:
                 self.class_teacher_id = False
 
-
-
-    # @api.onchange('street')
-    # def _onchange_street(self):
-          
-    #     new_context_values = {
-    #         'key1': 'value1',
-    #         'key2': 'value2',
-    #     }
-    #     updated_record = self.with_context(new_context_values)
-
-    #     self = updated_record
-    #     print("vvvvvvvAAAAAAAAAAAAA", updated_record)
-
-    #     print('Updated Context:', self._context)
-    #     for record in self:
-    #         if self._context.get('key1'):
-    #             record.street="LA MIAMI"
-    #         else:
-    #             return False
 
             
     @api.constrains('phone_number')
@@ -263,14 +245,16 @@ class School(models.Model):
         domain = args + ['|', '|', ('phone_number', operator, name), ('name', operator, name), ('enrollment_number', operator, name)]
         return super(School, self).search(domain, limit=limit).name_get()
     
-    def write(self,values):
-        if 'date_of_birth' in values:
-            record_id = [12]
+   
+    def write(self, vals):
+        if 'date_of_birth' in vals:
+            record_id = [9]
             res = self.env['school.management'].browse(record_id)
-            # print('AAAAAAAAAAAAAAAAA',res)
+     
             res.name='Niharrrrr'
             res.phone_number=9632587410
-        return super(School,self).write(values)
+            print(res)
+        return super(School,self).write(vals)
     
 
     def action_cancel_application(self):

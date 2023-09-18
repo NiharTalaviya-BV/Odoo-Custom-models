@@ -11,12 +11,20 @@
         'views/snippets/explore-employees.xml',
         'views/snippets/snippets.xml',
         'views/yh_employees.xml',
+        'views/yh_candidate.xml',
+        'views/snippets/homepage.xml',
     ],
     'assets':{
+        'web.assets_common': [
+
+
+            'your_company/static/src/js/webpage.js',],
+
         'web.assets_frontend': [
             'your_company/static/src/scss/styles.scss',
             'your_company/static/src/scss/company_leaders.scss',
             'your_company/static/src/js/explore-employees.js',
+             'your_company/static/src/js/webpage.js'
         ],
         'web._assets_primary_variables': [
             "your_company/static/src/scss/primary_variables.scss",

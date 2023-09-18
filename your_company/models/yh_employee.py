@@ -6,6 +6,7 @@ class YourHomeEmployees(models.Model):
     _description = 'Your Employees'
 
     employee_name = fields.Char()
+    email = fields.Char()
     phone_number = fields.Char()
     experience = fields.Char()
     country_id = fields.Many2one('res.country', string='Country')

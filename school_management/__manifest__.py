@@ -11,7 +11,7 @@
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/email_template_data.xml',
-        'data/cron_data.xml',
+        'data/cron_data.xml',   
         'wizard/cancel_form_view.xml',
         'views/school_views.xml',
         'views/demo_data.xml',

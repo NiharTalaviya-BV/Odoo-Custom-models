@@ -1,1 +1,2 @@
-from . import yh_employees
+from . import yh_employee
+from . import yh_candidate

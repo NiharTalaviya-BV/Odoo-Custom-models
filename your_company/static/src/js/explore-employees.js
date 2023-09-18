@@ -18,7 +18,7 @@ publicWidget.registry.yhEmployees = publicWidget.Widget.extend({
                    
                         html += `<div class="row">`;
                     }
-        
+                    
                     html += `<div class="col-lg-4 mb-5">
                         <div class="d-flex align-items-center">
                             <div class="img-container mr-3 rounded">

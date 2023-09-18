@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="custom_homepage" inherit_id="website.homepage" name="Home">
+        <xpath expr="//t[@t-call='website.layout']" position="replace">
+            <t t-call="website.layout">
+                <t t-set="pageName" t-value="'homepage'" />
+                <div class="oe_structure" />
+                <div id="wrap">
+                    <section class="s_cover parallax bg-black-50 pt96 pb96"
+                        data-scroll-background-ratio="1">
+                        <span class="s_parallax_bg oe_img_bg"
+                            style="background-image: url('/theme_yourhome/static/src/img/home-bg.jpg');" />
+                        <div class="container s_allow_columns">
+                            <h1 style="text-align: center;">
+                                <font style="font-size: 62px; font-weight: bold;">Explore our work</font>
+                            </h1>
+                            <p class="lead" style="text-align: center;">Lorem ipsum is placeholder
+                                text commonly used in the graphic, print, and publishing industries
+                                for <br />previewing layouts and visual mockups.</p>
+                            <p style="text-align: center;">
+                                <a t-att-href="cta_btn_href"
+                                    class="btn btn-primary mb-2 mt-3 rounded-circle px-5 font-weight-medium">
+                                    <t t-esc="cta_btn_text">Learn More</t>
+                                </a>
+                            </p>
+                        </div>
+                    </section>
+
+
+                    <section class="s_carousel_wrapper" data-vxml="001">
+                        <t t-set="uniq" t-value="datetime.datetime.now().microsecond" />
+                        <div t-attf-id="myCarousel{{uniq}}"
+                            class="s_carousel s_carousel_default carousel slide"
+                            data-bs-interval="10000">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li t-attf-data-bs-target="#myCarousel{{uniq}}" data-bs-slide-to="0"
+                                    class="active" />
+                                <li t-attf-data-bs-target="#myCarousel{{uniq}}" data-bs-slide-to="1" />
+                                <li t-attf-data-bs-target="#myCarousel{{uniq}}" data-bs-slide-to="2" />
+                            </ol>
+                            <!-- Content -->
+                            <!-- TODO in master: remove the `content` classes in the div with
+                the class `row`, to avoid having unwanted dropzones when
+                dragging inner content. -->
+                            <div class="carousel-inner">
+                                <!-- #01 -->
+                                <div
+                                    class="carousel-item active oe_img_bg o_bg_img_center pt152 pb152"
+                                    style="background-image: url('/web/image/website.s_carousel_default_image_1');"
+                                    data-name="Slide">
+                                    <div class="container oe_unremovable">
+                                        <div class="row content">
+                                            <div class="carousel-content col-lg-6">
+                                                <h2>
+                                                    <font style="font-size: 62px;">Slide Title</font>
+                                                </h2>
+                                                <p class="lead">Use this snippet to presents your
+                                                    content in a slideshow-like format. Don't write
+                                                    about products or services here, write about
+                                                    solutions.</p>
+                                                <p>
+                                                    <a href="/contactus"
+                                                        class="btn btn-primary mb-2">Contact us</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- #02 -->
+                                <div class="carousel-item oe_img_bg o_bg_img_center pt96 pb96"
+                                    style="background-image: url('/web/image/website.s_carousel_default_image_2');"
+                                    data-name="Slide">
+                                    <div class="container oe_unremovable">
+                                        <div class="row content">
+                                            <div
+                                                class="carousel-content col-lg-8 offset-lg-2 bg-black-50 text-center pt48 pb40">
+                                                <h2 style="font-size: 62px;">Clever Slogan</h2>
+                                                <div class="s_hr pt8 pb24" data-snippet="s_hr"
+                                                    data-name="Separator">
+                                                    <hr class="w-25 mx-auto"
+                                                        style="border-top-width: 1px; border-top-style: solid;" />
+                                                </div>
+                                                <p class="lead">Storytelling is powerful.<br /> It
+                                                    draws readers in and engages them.</p>
+                                                <p>
+                                                    <a href="/" class="btn btn-primary mb-2">Start
+                                                        your journey</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- #03 -->
+                                <div class="carousel-item oe_img_bg o_bg_img_center pt128 pb128"
+                                    style="background-image: url('/web/image/website.s_carousel_default_image_3');"
+                                    data-name="Slide">
+                                    <div class="container oe_unremovable">
+                                        <div class="row content">
+                                            <div class="carousel-content col-lg-6 offset-lg-6">
+                                                <h2>
+                                                    <font
+                                                        style="font-size: 62px; background-color: rgb(255, 255, 255);">Edit
+                                                        this title</font>
+                                                </h2>
+                                                <h4>
+                                                    <font
+                                                        style="background-color: rgb(255, 255, 255);">Good
+                                                        writing is simple, but not simplistic.</font>
+                                                </h4>
+                                                <p>
+                                                    <br />
+                                                </p>
+                                                <p>Good copy starts with understanding how your
+                                                    product or service helps your customers. Simple
+                                                    words communicate better than big words and
+                                                    pompous language.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Controls -->
+                            <a class="carousel-control-prev o_not_editable" contenteditable="false"
+                                t-attf-href="#myCarousel{{uniq}}" data-bs-slide="prev" role="img"
+                                aria-label="Previous" title="Previous">
+                                <span class="carousel-control-prev-icon" />
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next o_not_editable" contenteditable="false"
+                                t-attf-href="#myCarousel{{uniq}}" data-bs-slide="next" role="img"
+                                aria-label="Next" title="Next">
+                                <span class="carousel-control-next-icon" />
+                                <span class="visually-hidden">Next</span>
+                            </a>
+                        </div>
+                    </section>
+
+
+                    <section class="compony-leaders border-none company-visible">
+                        <div class="container">
+                            <div class="text-center py-5">
+                                <h2 class="h1">Compony Leaders</h2>
+                                <p>Lorem ipsum is placeholder text commonly used in the graphic,
+                                    print, and publishing industries for <br />previewing layouts
+                                    and visual mockups.</p>
+                            </div>
+
+                            <div class="row pb-5">
+                                <div class="col text-center">
+                                    <div class="leader-img-container rounded-circle mx-auto">
+                                        <img class="object-fit rounded"
+                                            src="/your_company/static/src/img/employee1.png" />
+                                    </div>
+                                    <h5 class="mb-0 mt-3">Leader Name</h5>
+                                    <div class="company-name">Company name</div>
+                                </div>
+                                <div class="col text-center">
+                                    <div class="leader-img-container rounded-circle mx-auto">
+                                        <img class="object-fit rounded"
+                                            src="/your_company/static/src/img/employee2.png" />
+                                    </div>
+                                    <h5 class="mb-0 mt-3">Leader Name</h5>
+                                    <div class="company-name">Company name</div>
+                                </div>
+                                <div class="col text-center">
+                                    <div class="leader-img-container rounded-circle mx-auto">
+                                        <img class="object-fit rounded"
+                                            src="/your_company/static/src/img/employee3.png" />
+                                    </div>
+                                    <h5 class="mb-0 mt-3">Leader Name</h5>
+                                    <div class="company-name">Company name</div>
+                                </div>
+                                <div class="col text-center">
+                                    <div class="leader-img-container rounded-circle mx-auto">
+                                        <img class="object-fit rounded"
+                                            src="/your_company/static/src/img/employee4.png" />
+                                    </div>
+                                    <h5 class="mb-0 mt-3">Leader Name</h5>
+                                    <div class="company-name">Company name</div>
+                                </div>
+                                <div class="col text-center">
+                                    <div class="leader-img-container rounded-circle mx-auto">
+                                        <img class="object-fit rounded"
+                                            src="/your_company/static/src/img/employee5.png" />
+                                    </div>
+                                    <h5 class="mb-0 mt-3">Leader Name</h5>
+                                    <div class="company-name">Company name</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="s_cover parallax bg-black-50 pt96 pb96"
+                        data-scroll-background-ratio="1">
+                        <span class="s_parallax_bg oe_img_bg"
+                            style="background-image: url('/theme_yourhome/static/src/img/contact-bg.jpg');" />
+                        <div class="container s_allow_columns">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h2 class="h1">We help to build your <br
+                                            class="d-none d-lg-block" />career</h2>
+                                    <p class="pr-5">Lorem ipsum is placeholder text commonly used in
+                                        the graphic, print, and publishing industries for previewing
+                                        layouts and visual mockups.</p>
+                                    <p>
+                                        <a href=""
+                                            class="btn btn-primary mb-2 mt-3 rounded-circle px-5 font-weight-medium">Learn
+                                            More</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 o_cc1 p-5 rounded">
+                                    <form id="candidateForm" role="form" action="/create/candidate"
+                                        method="POST">
+                                        <div class="form-group">
+
+                                            <input type="hidden" name="csrf_token"
+                                                t-att-value="request.csrf_token()" />
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Your name</label>
+                                            <input type="text" name="candidate_name"
+                                                t-att-value="candidate_name" class="form-control"
+                                                id="name"
+                                                placeholder="Eg. Nihar Talaviya" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="experience">Years Of Experience</label>
+                                            <input type="experience" name="experience"
+                                                t-att-value="experience" class="form-control"
+                                                id="experience"
+                                                placeholder="Eg. 5" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Your email</label>
+                                            <input type="email" name="email" t-att-value="email"
+                                                class="form-control" id="email"
+                                                placeholder="Eg. youremail@gmail.com" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="number">Your number</label>
+                                            <input type="text" name="phone_number"
+                                                t-att-value="phone_number" class="form-control"
+                                                id="number"
+                                                placeholder="Eg. 1234567890" />
+                                        </div>
+
+                                        <button type="submit" id="submitForm" 
+                                            class="btn btn-form-submit w-100 mt-3 font-weight-medium">
+                                            Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
