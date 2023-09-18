@@ -1,15 +1,3 @@
-$(function () {
-    $('#candidateForm').submit(function (e) {
-            
-              $.ajax({
-                type: 'post',
-                url: '/create/candidate',
-                data: $(this).serialize(),
-              });
-          e.preventDefault();
-        });
-});
-
 odoo.define('your_company.checkLogin', function (require) {
     'use strict';
 
@@ -22,15 +10,40 @@ odoo.define('your_company.checkLogin', function (require) {
             'click': '_onClickSubmit',
         },
 
-        _onClickSubmit: function () {
+        _onClickSubmit: function (ev) {
+            ev.preventDefault(); 
+
             var self = this;
-    
-            if (!this.getSession().user_id) {
-                console.log(session.uid)
-                self.showPopup("You are not logged in! Please log in to submit your application.");
-            }
-            else {
-                self.showSuccessPopup("Your Data is successfully sent to the company!");
+            var formElement = this.$el.closest('form')[0];
+
+            if (formElement && formElement instanceof HTMLFormElement) {
+                var formData = new FormData(formElement);
+
+                $.ajax({
+                    type: 'post',
+                    url: '/create/candidate',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                
+                        console.log('Data saved successfully', data);
+
+                    
+                        if (!self.getSession().user_id) {
+                            console.log(session.uid)
+                            self.showPopup("You are not logged in! Please log in to submit your application.");
+                        }
+                        else {
+                            self.showSuccessPopup("Your Data is successfully sent to the company!");
+                        }
+                    },
+                    error: function (errorThrown) {
+                        console.error('Error:', errorThrown, formData);
+                    },
+                });
+            } else {
+                console.error('Form element not found or is not a <form> element');
             }
         },
 
